@@ -2,9 +2,9 @@
   <div>
     <el-table v-bind="$attrs" v-on="$listeners"> 
       <el-table-column v-if="index" type="index" :width="indexColWidth" :label="indexColLabel"></el-table-column>
-      <el-table-column v-for="(item, index) of tableColumn" :key="index" v-bind="item">
+      <el-table-column v-for="(item, index) of tableColumn" :key="index" v-bind="item" resizable >
         <template v-if="item.render" v-slot="scope">
-          <render-dom :render="() => item.render(scope.row)"></render-dom>
+          <render-dom :render="item.render" :row="scope.row" :index="scope.$index" :column="item"></render-dom>
         </template>
       </el-table-column>
     </el-table-column>
@@ -14,8 +14,10 @@
       :total="pagination.total"
       :current-page="pagination.pageNum"
       :page-size="pagination.pageSize"
-      @current-change=""
-      layout="total, sizes, prev, pager, next"
+      :layout="paginationLayout"
+      :page-sizes="pageSizeOptions"
+      @current-change="handleCurrentChange"
+      @size-change="handleSizeChange"
     ></el-pagination>
   </div>
 </template>
@@ -26,6 +28,9 @@ import { PaginationMixin } from './mixins/PaginationMixin'
 export default {
   name: 'WxTable',
   mixins: [PaginationMixin],
+  components: {
+    RenderDom
+  },
   props: {
     // Index
     index: {
@@ -57,22 +62,32 @@ export default {
         totalField: 'total'
       })
     },
+    defaultSize: {
+      type: String,
+      default: 'middle'
+    },
+
+    // Pagination
+    pagination: Object,
+
     // Number of pages that can be selected.
     pageSizeOptions: [10, 20, 30, 40, 50, 100],
 
     defaultPageSize: 10,
 
-    defaultSize: 'middle',
+    paginationLayout: {
+      type: String,
+      default: "total, sizes, prev, pager, next",
+    },
 
-    // Pagination
-    pagination: Object,
-  },
-  components: {
-    RenderDom
   },
   data() {
     return {}
   },
+  methods: {
+    handleCurrentChange() {},
+    handleSizeChange(){}
+  }
 }
 </script>
 

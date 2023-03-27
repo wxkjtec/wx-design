@@ -11,7 +11,14 @@
         <div>暂无数据</div>
       </template>
     </WxEcharts> -->
-    <WxTable :pagination="{}" />
+    <WxTable
+      size="mini"
+      :pagination="{}"
+      :table-column="tableColumn"
+      :data="tableData"
+      border
+      stripe
+    />
   </div>
 </template>
 
@@ -20,7 +27,7 @@
 // import WxEcharts from '../packages/echarts/src/Echarts.vue'
 // import WxTable from '../packages/table/src/Table.vue'
 export default {
-  name: 'App',
+  name: "App",
   components: {
     // WxTable,
   },
@@ -28,14 +35,14 @@ export default {
     return {
       showLoading: false,
       option: {
-        backgroundColor: '#0B1837',
+        backgroundColor: "#0B1837",
         color: [
-          '#EAEA26',
-          '#906BF9',
-          '#FE5656',
-          '#01E17E',
-          '#3DD1F9',
-          '#FFAD05',
+          "#EAEA26",
+          "#906BF9",
+          "#FE5656",
+          "#01E17E",
+          "#3DD1F9",
+          "#FFAD05",
         ],
         // title: {
         //     text: '网络/安全设备',
@@ -56,44 +63,44 @@ export default {
           containLabel: true,
         },
         tooltip: {
-          trigger: 'item',
-          formatter: '{b} : {c} ({d}%)',
+          trigger: "item",
+          formatter: "{b} : {c} ({d}%)",
         },
         legend: {
-          type: 'scroll',
-          orient: 'vartical',
+          type: "scroll",
+          orient: "vartical",
           // x: "right",
-          top: 'center',
-          right: '15',
+          top: "center",
+          right: "15",
           // bottom: "0%",
           itemWidth: 16,
           itemHeight: 8,
           itemGap: 16,
           textStyle: {
-            color: '#A3E2F4',
+            color: "#A3E2F4",
             fontSize: 14,
             fontWeight: 0,
           },
-          data: ['IDS', 'VPN', '交换机', '防火墙', 'WAF', '堡垒机'],
+          data: ["IDS", "VPN", "交换机", "防火墙", "WAF", "堡垒机"],
         },
         polar: {},
         angleAxis: {
           interval: 1,
-          type: 'category',
+          type: "category",
           data: [],
           z: 10,
           axisLine: {
             show: false,
             lineStyle: {
-              color: '#0B4A6B',
+              color: "#0B4A6B",
               width: 1,
-              type: 'solid',
+              type: "solid",
             },
           },
           axisLabel: {
             interval: 0,
             show: true,
-            color: '#0B4A6B',
+            color: "#0B4A6B",
             margin: 8,
             fontSize: 16,
           },
@@ -105,31 +112,31 @@ export default {
           axisLine: {
             show: false,
             lineStyle: {
-              color: '#0B3E5E',
+              color: "#0B3E5E",
               width: 1,
-              type: 'solid',
+              type: "solid",
             },
           },
           axisLabel: {
-            formatter: '{value} %',
+            formatter: "{value} %",
             show: false,
             padding: [0, 0, 20, 0],
-            color: '#0B3E5E',
+            color: "#0B3E5E",
             fontSize: 16,
           },
           splitLine: {
             lineStyle: {
-              color: '#0B3E5E',
+              color: "#0B3E5E",
               width: 2,
-              type: 'solid',
+              type: "solid",
             },
           },
         },
         calculable: true,
         series: [
           {
-            type: 'pie',
-            radius: ['5%', '10%'],
+            type: "pie",
+            radius: ["5%", "10%"],
             hoverAnimation: false,
             labelLine: {
               normal: {
@@ -143,19 +150,19 @@ export default {
             },
             data: [
               {
-                name: '',
+                name: "",
                 value: 0,
                 itemStyle: {
                   normal: {
-                    color: '#0B4A6B',
+                    color: "#0B4A6B",
                   },
                 },
               },
             ],
           },
           {
-            type: 'pie',
-            radius: ['90%', '95%'],
+            type: "pie",
+            radius: ["90%", "95%"],
             hoverAnimation: false,
             labelLine: {
               normal: {
@@ -167,33 +174,33 @@ export default {
                 show: false,
               },
             },
-            name: '',
+            name: "",
             data: [
               {
-                name: '',
+                name: "",
                 value: 0,
                 itemStyle: {
                   normal: {
-                    color: '#0B4A6B',
+                    color: "#0B4A6B",
                   },
                 },
               },
             ],
           },
           {
-            stack: 'a',
-            type: 'pie',
-            radius: ['20%', '80%'],
-            roseType: 'area',
+            stack: "a",
+            type: "pie",
+            radius: ["20%", "80%"],
+            roseType: "area",
             zlevel: 10,
             label: {
               normal: {
                 show: true,
-                formatter: '{c}',
+                formatter: "{c}",
                 textStyle: {
                   fontSize: 12,
                 },
-                position: 'outside',
+                position: "outside",
               },
               emphasis: {
                 show: true,
@@ -212,38 +219,105 @@ export default {
             data: [
               {
                 value: 10,
-                name: 'IDS',
+                name: "IDS",
               },
               {
                 value: 5,
-                name: 'VPN',
+                name: "VPN",
               },
               {
                 value: 15,
-                name: '交换机',
+                name: "交换机",
               },
               {
                 value: 25,
-                name: '防火墙',
+                name: "防火墙",
               },
               {
                 value: 20,
-                name: 'WAF',
+                name: "WAF",
               },
               {
                 value: 35,
-                name: '堡垒机',
+                name: "堡垒机",
               },
             ],
           },
         ],
       },
-    }
+
+      tableColumn: [
+        {
+          label: "姓名",
+          prop: "name",
+          showOverflowTooltip: true,
+          // filters: [
+          //   {
+          //     text: "男",
+          //     value: "M",
+          //   },
+          //   {
+          //     text: "女",
+          //     value: "F",
+          //   },
+          // ],
+          // filterMultiple: false,
+          renderHeader: (h, { column, $index }) => {
+            console.log(column, $index);
+            return h(
+              "span",
+              {
+                style: {
+                  color: "red",
+                },
+              },
+              "姓名111"
+            );
+          },
+        },
+        {
+          label: "年龄",
+          prop: "age",
+          minWidth: "100px",
+          sortable: true,
+          render(h, { row }) {
+            return h(
+              "span",
+              {
+                style: {
+                  color: "red",
+                },
+              },
+              row.age
+            );
+          },
+        },
+      ],
+
+      tableData: [
+        {
+          name: "张三dfjkhgkdfjghkjdfhgkjdfhgkjdfhg",
+          age: 18,
+        },
+        {
+          name: "李四",
+          age: 6,
+        },
+        {
+          name: "王五",
+          age: 40,
+        },
+        {
+          name: "张有",
+          age: 12,
+        },
+      ],
+    };
   },
   mounted() {
     // this.showLoading = true;
   },
-}
+};
 </script>
 
 <style>
