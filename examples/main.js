@@ -1,6 +1,8 @@
 import Vue from 'vue'
 import App from './App.vue'
 
+import './utils/mock'
+
 import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
 import * as echarts from 'echarts'
@@ -12,10 +14,11 @@ import Table from '../packages/table/index'
 
 Vue.use(Table, {
   fetchSetting: {
-    pageField: 'pageNum1',
+    pageField: 'pageNum',
     sizeField: 'pageSize',
+    totalField: 'total',
   },
-  a: 1,
+  defaultPageSize: 10,
 })
 
 Vue.config.productionTip = false

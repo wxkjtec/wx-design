@@ -30,6 +30,7 @@
     "@vue/cli-plugin-babel": "~5.0.0",
     "@vue/cli-plugin-eslint": "~5.0.0",
     "@vue/cli-service": "~5.0.0",
+    "axios": "^1.3.4",
     "babel-plugin-component": "^1.1.1",
     "babel-preset-es2015": "^6.24.1",
     "bumpp": "^9.0.0",
@@ -37,6 +38,7 @@
     "eslint-plugin-vue": "^8.0.3",
     "less": "^4.1.3",
     "less-loader": "^11.1.0",
+    "mockjs": "^1.1.0",
     "vue-template-compiler": "^2.6.14"
   },
   "eslintConfig": {
