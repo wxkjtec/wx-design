@@ -1,5 +1,15 @@
 export const PaginationMixin = {
   props: {
+    // basic-table setting
+    fetchSetting: {
+      type: Object,
+      default: () => ({
+        pageField: "pageNum",
+        sizeField: "pageSize",
+        totalField: "total",
+      }),
+    },
+
     // Pagination
     pagination: Object,
 
@@ -16,45 +26,45 @@ export const PaginationMixin = {
 
     paginationLayout: {
       type: String,
-      default: 'total, sizes, prev, pager, next',
+      default: "total, sizes, prev, pager, next",
     },
     paginationAlign: {
       type: String,
-      default: 'right',
+      default: "right",
       validator(val) {
-        return ['left', 'center', 'right'].includes(val)
+        return ["left", "center", "right"].includes(val);
       },
     },
   },
   computed: {
     paginationStyle({ paginationAlign }) {
       const ALIGNMAP = {
-        left: 'flex-start',
-        center: 'center',
-        right: 'flex-end',
-      }
+        left: "flex-start",
+        center: "center",
+        right: "flex-end",
+      };
       return {
-        display: 'flex',
-        justifyContent: ALIGNMAP[paginationAlign] || 'right',
-      }
+        display: "flex",
+        justifyContent: ALIGNMAP[paginationAlign] || "right",
+      };
     },
   },
   methods: {
     handleCurrentChange(val) {
-      this.$emit('paginationChange', {
+      this.$emit("paginationChange", {
         ...this.pagination,
         [this.fetchSetting.pageField]: val,
-      })
+      });
     },
     /**
      * 每页数量改变时，切回第一页
      */
     handleSizeChange(val) {
-      this.$emit('paginationChange', {
+      this.$emit("paginationChange", {
         ...this.pagination,
         [this.fetchSetting.pageField]: 1,
         [this.fetchSetting.sizeField]: val,
-      })
+      });
     },
   },
-}
+};

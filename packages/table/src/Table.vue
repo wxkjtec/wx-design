@@ -1,9 +1,14 @@
 <template>
   <div>
-    <el-table v-bind="$attrs" v-on="$listeners" v-loading="loading">
+    <el-table
+      v-bind="$attrs"
+      v-on="$listeners"
+      @header-dragend="onHeaderDragend"
+      v-loading="loading"
+    >
       <!-- 展开行 -->
       <template v-if="expand">
-        <el-table-column type="expand">
+        <el-table-column type="expand" :resizable="false">
           <template slot-scope="props">
             <slot name="expand" :row="props" />
           </template>
@@ -14,6 +19,7 @@
       <el-table-column
         v-if="selection"
         type="selection"
+        :resizable="false"
         :width="selectionColWidth"
       />
 
@@ -21,13 +27,14 @@
       <el-table-column
         v-if="index"
         type="index"
+        :resizable="false"
         :width="indexColWidth"
         :label="indexColLabel"
       ></el-table-column>
 
       <!-- 表格列 -->
       <TableColumn
-        v-for="(item, index) of columns"
+        v-for="(item, index) of tableColumn"
         :key="index"
         v-bind="item"
         resizable
@@ -52,15 +59,22 @@
 </template>
 
 <script>
-import TableColumn from './components/TableColumn.vue'
-import { PaginationMixin } from './mixins/PaginationMixin'
+import TableColumn from "./components/TableColumn.vue";
+import { PaginationMixin } from "./mixins/PaginationMixin";
+import { HeaderDragendMixin } from "./mixins/HeaderDragendMixin";
 export default {
-  name: 'WxTable',
-  mixins: [PaginationMixin],
+  name: "WxTable",
+  mixins: [PaginationMixin, HeaderDragendMixin],
   components: {
     TableColumn,
   },
   props: {
+    // table唯一标识
+    tableId: {
+      type: String,
+      default: "",
+    },
+
     // 是否可展开
     expand: {
       type: Boolean,
@@ -75,7 +89,7 @@ export default {
     // 索引列名称
     indexColLabel: {
       type: String,
-      default: '序号',
+      default: "序号",
     },
     // 索引列宽
     indexColWidth: {
@@ -100,35 +114,35 @@ export default {
       default: false,
     },
 
-    // Table
+    // table column
     columns: {
       type: Array,
       default: () => [],
     },
 
-    // basic-table setting
-    fetchSetting: {
-      type: Object,
-      default: () => ({
-        pageField: 'pageNum',
-        sizeField: 'pageSize',
-        listField: 'records',
-        totalField: 'total',
-      }),
-    },
+    // table size
     defaultSize: {
       type: String,
-      default: 'middle',
+      default: "middle",
     },
   },
   data() {
     return {
-      currentPagination: {},
-    }
+      tableColumn: [],
+    };
+  },
+  watch: {
+    columns: {
+      handler(val) {
+        this.tableColumn = val;
+      },
+      deep: true,
+      immediate: true,
+    },
   },
 
   methods: {},
-}
+};
 </script>
 
 <style lang="less" scoped></style>

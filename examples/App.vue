@@ -1,6 +1,7 @@
 <template>
   <div id="app">
     <WxTable
+      tableId="table1688"
       max-height="500px"
       size="mini"
       background
@@ -24,13 +25,13 @@
 </template>
 
 <script>
-import axios from 'axios'
+import axios from "axios";
 export default {
-  name: 'App',
+  name: "App",
   components: {},
   data() {
     return {
-      api: '',
+      api: "",
       tableLoading: false,
       pagination: {
         pageSize: 10,
@@ -39,65 +40,75 @@ export default {
       },
       columns: [
         {
-          label: '姓名',
-          prop: 'name',
+          label: "姓名",
+          prop: "name",
+          children: [
+            {
+              label: "姓",
+              prop: "xing",
+            },
+            {
+              label: "名",
+              prop: "yyy",
+            },
+          ],
         },
         {
-          label: '年龄',
-          prop: 'age',
-          minWidth: '100px',
+          label: "年龄",
+          prop: "age",
+          minWidth: "100px",
           sortable: true,
         },
         {
-          label: '性别',
-          prop: 'gender',
+          label: "性别",
+          prop: "gender",
         },
         {
-          label: '邮箱',
-          prop: 'email',
+          label: "邮箱",
+          prop: "email",
         },
       ],
 
       tableData: [],
-    }
+    };
   },
   methods: {
     console(val) {
-      console.log(val)
+      console.log(val);
     },
     fetchData({ pageSize, pageNum }) {
-      this.tableLoading = true
-      axios('/api/page', {
-        method: 'post',
+      this.tableLoading = true;
+      axios("/api/page", {
+        method: "post",
         data: {
           pageSize: pageSize || 10,
           pageNum: pageNum || 1,
         },
       })
         .then((ret) => {
-          const { records, total, pageNum, pageSize } = ret.data.data
-          this.tableData = records
+          const { records, total, pageNum, pageSize } = ret.data.data;
+          this.tableData = records;
           this.pagination = {
             total,
             pageNum,
             pageSize,
-          }
+          };
         })
         .finally(() => {
-          this.tableLoading = false
-        })
+          this.tableLoading = false;
+        });
     },
     onPaginationChange({ pageSize, pageNum }) {
-      this.fetchData({ pageSize, pageNum })
+      this.fetchData({ pageSize, pageNum });
     },
     selectionChange(val) {
-      console.log(val)
+      console.log(val);
     },
   },
   mounted() {
-    this.fetchData({})
+    this.fetchData({});
   },
-}
+};
 </script>
 
 <style>
