@@ -1,5 +1,5 @@
 <template>
-  <el-table-column v-bind="$attrs">
+  <el-table-column align="center" v-bind="$attrs">
     <!-- 自定义单元格内容 -->
     <template v-if="$attrs.render" v-slot="scope">
       <render-dom

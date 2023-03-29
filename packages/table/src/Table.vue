@@ -1,5 +1,6 @@
 <template>
   <div>
+    <ToolsView />
     <el-table
       v-bind="$attrs"
       v-on="$listeners"
@@ -8,7 +9,7 @@
     >
       <!-- 展开行 -->
       <template v-if="expand">
-        <el-table-column type="expand" :resizable="false">
+        <el-table-column type="expand" :resizable="false" align="center">
           <template slot-scope="props">
             <slot name="expand" :row="props" />
           </template>
@@ -17,6 +18,7 @@
 
       <!-- 选择框 -->
       <el-table-column
+        align="center"
         v-if="selection"
         type="selection"
         :resizable="false"
@@ -27,6 +29,7 @@
       <el-table-column
         v-if="index"
         type="index"
+        :align="indexAlign"
         :resizable="false"
         :width="indexColWidth"
         :label="indexColLabel"
@@ -36,7 +39,10 @@
       <TableColumn
         v-for="(item, index) of tableColumn"
         :key="index"
-        v-bind="item"
+        v-bind="{
+          align: 'center',
+          ...item,
+        }"
         resizable
       />
     </el-table>
@@ -59,20 +65,22 @@
 </template>
 
 <script>
-import TableColumn from "./components/TableColumn.vue";
-import { PaginationMixin } from "./mixins/PaginationMixin";
-import { HeaderDragendMixin } from "./mixins/HeaderDragendMixin";
+import TableColumn from './components/TableColumn.vue'
+import ToolsView from './components/ToolsView/index.vue'
+import { PaginationMixin } from './mixins/PaginationMixin'
+import { HeaderDragendMixin } from './mixins/HeaderDragendMixin'
 export default {
-  name: "WxTable",
+  name: 'WxTable',
   mixins: [PaginationMixin, HeaderDragendMixin],
   components: {
     TableColumn,
+    ToolsView,
   },
   props: {
     // table唯一标识
     tableId: {
       type: String,
-      default: "",
+      default: '',
     },
 
     // 是否可展开
@@ -86,10 +94,15 @@ export default {
       type: Boolean,
       default: true,
     },
+    // 索引列对齐方式
+    indexAlign: {
+      type: String,
+      default: 'center',
+    },
     // 索引列名称
     indexColLabel: {
       type: String,
-      default: "序号",
+      default: '序号',
     },
     // 索引列宽
     indexColWidth: {
@@ -123,18 +136,18 @@ export default {
     // table size
     defaultSize: {
       type: String,
-      default: "middle",
+      default: 'middle',
     },
   },
   data() {
     return {
       tableColumn: [],
-    };
+    }
   },
   watch: {
     columns: {
       handler(val) {
-        this.tableColumn = val;
+        this.tableColumn = val
       },
       deep: true,
       immediate: true,
@@ -142,7 +155,7 @@ export default {
   },
 
   methods: {},
-};
+}
 </script>
 
 <style lang="less" scoped></style>
