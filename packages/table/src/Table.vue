@@ -1,6 +1,6 @@
 <template>
-  <div>
-    <ToolsView />
+  <div class="wx-table">
+    <ToolsView @refresh-table="onRefreshTable" />
     <el-table
       v-bind="$attrs"
       v-on="$listeners"
@@ -65,13 +65,14 @@
 </template>
 
 <script>
-import TableColumn from './components/TableColumn.vue'
-import ToolsView from './components/ToolsView/index.vue'
-import { PaginationMixin } from './mixins/PaginationMixin'
-import { HeaderDragendMixin } from './mixins/HeaderDragendMixin'
+import TableColumn from "./components/TableColumn.vue";
+import ToolsView from "./components/ToolsView/index.vue";
+import { PaginationMixin } from "./mixins/PaginationMixin";
+import { HeaderDragendMixin } from "./mixins/HeaderDragendMixin";
+import { RequestMixin } from "./mixins/RequestMixin";
 export default {
-  name: 'WxTable',
-  mixins: [PaginationMixin, HeaderDragendMixin],
+  name: "WxTable",
+  mixins: [PaginationMixin, HeaderDragendMixin, RequestMixin],
   components: {
     TableColumn,
     ToolsView,
@@ -80,7 +81,12 @@ export default {
     // table唯一标识
     tableId: {
       type: String,
-      default: '',
+      default: "",
+    },
+    // 是否保存table设置
+    isSaveTableSetting: {
+      type: Boolean,
+      default: true,
     },
 
     // 是否可展开
@@ -97,12 +103,12 @@ export default {
     // 索引列对齐方式
     indexAlign: {
       type: String,
-      default: 'center',
+      default: "center",
     },
     // 索引列名称
     indexColLabel: {
       type: String,
-      default: '序号',
+      default: "序号",
     },
     // 索引列宽
     indexColWidth: {
@@ -121,12 +127,6 @@ export default {
       default: 82,
     },
 
-    // table loading状态
-    loading: {
-      type: Boolean,
-      default: false,
-    },
-
     // table column
     columns: {
       type: Array,
@@ -136,26 +136,71 @@ export default {
     // table size
     defaultSize: {
       type: String,
-      default: 'middle',
+      default: "middle",
+    },
+
+    // basic-table setting
+    fetchSetting: {
+      type: Object,
+      default: () => ({
+        pageField: "pageNum",
+        sizeField: "pageSize",
+        totalField: "total",
+      }),
+    },
+
+    // Pagination
+    pagination: Object,
+
+    // Number of pages that can be selected.
+    pageSizeOptions: {
+      type: Array,
+      default: () => [10, 20, 30, 40, 50, 100],
+    },
+
+    defaultPageSize: {
+      type: Number,
+      default: 10,
+    },
+
+    paginationLayout: {
+      type: String,
+      default: "total, sizes, prev, pager, next",
+    },
+    paginationAlign: {
+      type: String,
+      default: "right",
+      validator(val) {
+        return ["left", "center", "right"].includes(val);
+      },
     },
   },
   data() {
     return {
       tableColumn: [],
-    }
+    };
   },
   watch: {
     columns: {
       handler(val) {
-        this.tableColumn = val
+        this.tableColumn = val;
       },
       deep: true,
       immediate: true,
     },
   },
 
-  methods: {},
-}
+  methods: {
+    onRefreshTable() {
+      console.log(999);
+    },
+  },
+};
 </script>
 
-<style lang="less" scoped></style>
+<style lang="less" scoped>
+.wx-table {
+  background: #fff;
+  padding: 6px;
+}
+</style>

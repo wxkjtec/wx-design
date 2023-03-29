@@ -1,41 +1,4 @@
 export const PaginationMixin = {
-  props: {
-    // basic-table setting
-    fetchSetting: {
-      type: Object,
-      default: () => ({
-        pageField: "pageNum",
-        sizeField: "pageSize",
-        totalField: "total",
-      }),
-    },
-
-    // Pagination
-    pagination: Object,
-
-    // Number of pages that can be selected.
-    pageSizeOptions: {
-      type: Array,
-      default: () => [10, 20, 30, 40, 50, 100],
-    },
-
-    defaultPageSize: {
-      type: Number,
-      default: 10,
-    },
-
-    paginationLayout: {
-      type: String,
-      default: "total, sizes, prev, pager, next",
-    },
-    paginationAlign: {
-      type: String,
-      default: "right",
-      validator(val) {
-        return ["left", "center", "right"].includes(val);
-      },
-    },
-  },
   computed: {
     paginationStyle({ paginationAlign }) {
       const ALIGNMAP = {
@@ -46,6 +9,7 @@ export const PaginationMixin = {
       return {
         display: "flex",
         justifyContent: ALIGNMAP[paginationAlign] || "right",
+        marginTop: "6px",
       };
     },
   },

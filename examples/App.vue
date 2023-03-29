@@ -25,13 +25,13 @@
 </template>
 
 <script>
-import axios from 'axios'
+import axios from "axios";
 export default {
-  name: 'App',
+  name: "App",
   components: {},
   data() {
     return {
-      api: '',
+      api: "",
       tableLoading: false,
       pagination: {
         pageSize: 10,
@@ -40,88 +40,94 @@ export default {
       },
       columns: [
         {
-          label: '姓名',
-          prop: 'name',
-          align: 'left',
+          label: "姓名",
+          prop: "name",
+          align: "left",
           children: [
             {
-              label: '姓',
-              prop: 'xing',
-              align: 'left',
+              label: "姓",
+              prop: "xing",
+              align: "left",
             },
             {
-              label: '名',
-              prop: 'yyy',
+              label: "名",
+              prop: "yyy",
             },
             {
-              label: '名1',
-              prop: 'yyy',
+              label: "名1",
+              prop: "yyy",
             },
           ],
         },
         {
-          label: '年龄',
-          prop: 'age',
-          minWidth: '100px',
+          label: "年龄",
+          prop: "age",
+          minWidth: "100px",
           sortable: true,
         },
         {
-          label: '性别',
-          prop: 'gender',
+          label: "性别",
+          prop: "gender",
         },
         {
-          label: '邮箱',
-          prop: 'email',
+          label: "邮箱",
+          prop: "email",
         },
       ],
 
       tableData: [],
-    }
+    };
   },
   methods: {
     console(val) {
-      console.log(val)
+      console.log(val);
     },
     fetchData({ pageSize, pageNum }) {
-      this.tableLoading = true
-      axios('/api/page', {
-        method: 'post',
+      this.tableLoading = true;
+      axios("/api/page", {
+        method: "post",
         data: {
           pageSize: pageSize || 10,
           pageNum: pageNum || 1,
         },
       })
         .then((ret) => {
-          const { records, total, pageNum, pageSize } = ret.data.data
-          this.tableData = records
+          const { records, total, pageNum, pageSize } = ret.data.data;
+          this.tableData = records;
           this.pagination = {
             total,
             pageNum,
             pageSize,
-          }
+          };
         })
         .finally(() => {
-          this.tableLoading = false
-        })
+          this.tableLoading = false;
+        });
     },
     onPaginationChange({ pageSize, pageNum }) {
-      this.fetchData({ pageSize, pageNum })
+      this.fetchData({ pageSize, pageNum });
     },
     selectionChange(val) {
-      console.log(val)
+      console.log(val);
     },
   },
   mounted() {
-    this.fetchData({})
+    this.fetchData({});
   },
-}
+};
 </script>
 
 <style>
+html,
+body {
+  margin: 0;
+}
 #app {
+  height: 100vh;
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   color: #2c3e50;
+  background: #f0f2f5;
 }
 </style>

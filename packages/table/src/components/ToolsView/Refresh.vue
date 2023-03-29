@@ -4,17 +4,19 @@
   </el-tooltip>
 </template>
 <script>
-import REFRESH_ICON from '../../icon/refresh.png'
+import REFRESH_ICON from "../../icon/refresh.png";
 export default {
-  name: 'Refresh',
+  name: "Refresh",
   data() {
     return {
       REFRESH_ICON,
-    }
+    };
   },
   methods: {
-    handleRefresh() {},
+    handleRefresh() {
+      this.$emit("refresh-table");
+    },
   },
-}
+};
 </script>
 <style lang="less" scoped></style>

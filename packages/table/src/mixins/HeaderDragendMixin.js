@@ -1,11 +1,5 @@
 // 表格拖拽列调整列宽
 export const HeaderDragendMixin = {
-  props: {
-    isSaveTableSetting: {
-      type: Boolean,
-      default: true,
-    },
-  },
   methods: {
     onHeaderDragend(newWidth, oldWidth, column, event) {
       if (this.tableId && this.isSaveTableSetting) {

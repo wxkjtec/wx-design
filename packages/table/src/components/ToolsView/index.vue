@@ -1,26 +1,26 @@
 <template>
   <div class="tools-view">
-    <RefreshTool />
+    <RefreshTool @refresh-table="$emit('refresh-table')" />
     <DensityTool />
     <SettingTool />
   </div>
 </template>
 <script>
-import RefreshTool from './Refresh.vue'
-import DensityTool from './Density.vue'
-import SettingTool from './Setting.vue'
+import RefreshTool from "./Refresh.vue";
+import DensityTool from "./Density.vue";
+import SettingTool from "./Setting.vue";
 export default {
-  name: 'ToolsView',
+  name: "ToolsView",
   components: {
     RefreshTool,
     DensityTool,
     SettingTool,
   },
   data() {
-    return {}
+    return {};
   },
   methods: {},
-}
+};
 </script>
 <style lang="less" scoped>
 .tools-view {
