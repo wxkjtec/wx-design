@@ -2,42 +2,16 @@
 export const HeaderDragendMixin = {
   methods: {
     onHeaderDragend(newWidth, oldWidth, column, event) {
+      console.log(column);
       if (this.tableId && this.isSaveTableSetting) {
         const updatedColumns = this.traverseColumn(
           this.tableColumn,
           column.property,
+          "width",
           newWidth
         );
-        this.saveColumns(this.tableId, updatedColumns);
+        this.saveColumns(updatedColumns);
       }
     },
-    traverseColumn(columns, prop, width) {
-      columns.map((child) => {
-        if (child.prop === prop) {
-          child.width = width;
-        }
-        if (child.children && child.children.length > 0) {
-          this.traverseColumn(child.children, prop, width);
-        }
-      });
-      return columns;
-    },
-    saveColumns(tableId, columns) {
-      localStorage.setItem(tableId, JSON.stringify(columns));
-    },
-
-    // 在加载table时，从本地中获取列宽配置
-    setColumns() {
-      const { tableId } = this;
-      if (tableId) {
-        const localColumns = localStorage.getItem(tableId);
-        if (localColumns) {
-          this.tableColumn = JSON.parse(localColumns);
-        }
-      }
-    },
-  },
-  mounted() {
-    this.setColumns();
   },
 };

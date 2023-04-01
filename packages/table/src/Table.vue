@@ -1,9 +1,13 @@
 <template>
   <div class="wx-table">
-    <ToolsView @refresh-table="onRefreshTable" />
+    <ToolsView
+      @refresh-table="$emit('onRefreshTable')"
+      @density-change="onDensityChange"
+    />
     <el-table
       v-bind="$attrs"
       v-on="$listeners"
+      :size="tableSize"
       @header-dragend="onHeaderDragend"
       v-loading="loading"
     >
@@ -70,12 +74,23 @@ import ToolsView from "./components/ToolsView/index.vue";
 import { PaginationMixin } from "./mixins/PaginationMixin";
 import { HeaderDragendMixin } from "./mixins/HeaderDragendMixin";
 import { RequestMixin } from "./mixins/RequestMixin";
+import { CommonMixin } from "./mixins/CommonMixin";
+import { TABLE_SIZE_SETTING_KEY } from "./config/index";
 export default {
   name: "WxTable",
-  mixins: [PaginationMixin, HeaderDragendMixin, RequestMixin],
+  mixins: [CommonMixin, PaginationMixin, HeaderDragendMixin, RequestMixin],
   components: {
     TableColumn,
     ToolsView,
+  },
+  provide() {
+    return {
+      getTableId: () => {
+        return this.tableId;
+      },
+      updateTableSize: this.updateTableSize,
+      isRequireSave: this.isRequireSave,
+    };
   },
   props: {
     // table唯一标识
@@ -178,6 +193,7 @@ export default {
   data() {
     return {
       tableColumn: [],
+      tableSize: "medium",
     };
   },
   watch: {
@@ -191,9 +207,29 @@ export default {
   },
 
   methods: {
-    onRefreshTable() {
-      console.log(999);
+    updateTableSize(size) {
+      this.tableSize = size;
     },
+    onDensityChange(size) {
+      this.tableSize = size;
+      if (this.isRequireSave()) {
+        localStorage.setItem(`${TABLE_SIZE_SETTING_KEY}-${this.tableId}`, size);
+      }
+      this.$emit("onDensityChange", size);
+    },
+    setDensitySize() {
+      if (this.isRequireSave()) {
+        const localTableSize = localStorage.getItem(
+          `${TABLE_SIZE_SETTING_KEY}-${this.tableId}`
+        );
+        if (localTableSize) {
+          this.tableSize = localTableSize;
+        }
+      }
+    },
+  },
+  mounted() {
+    this.setDensitySize();
   },
 };
 </script>

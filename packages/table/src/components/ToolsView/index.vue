@@ -1,7 +1,7 @@
 <template>
   <div class="tools-view">
     <RefreshTool @refresh-table="$emit('refresh-table')" />
-    <DensityTool />
+    <DensityTool @density-change="(val) => $emit('density-change', val)" />
     <SettingTool />
   </div>
 </template>

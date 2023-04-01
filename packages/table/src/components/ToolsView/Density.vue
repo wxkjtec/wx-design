@@ -19,36 +19,54 @@
   </el-popover>
 </template>
 <script>
-import DENSITY_ICON from '../../icon/density.png'
-
+import DENSITY_ICON from "../../icon/density.png";
+import { TABLE_SIZE_SETTING_KEY } from "../../config/index";
 export default {
-  name: 'DensityTool',
+  name: "DensityTool",
+  inject: ["getTableId", "updateTableSize", "isRequireSave"],
   data() {
     return {
       DENSITY_ICON,
-      selected_density: 'medium',
+      selected_density: "medium",
       density: [
         {
-          size: 'medium',
-          label: '默认',
+          size: "medium",
+          label: "默认",
         },
         {
-          size: 'small',
-          label: '中等',
+          size: "small",
+          label: "中等",
         },
         {
-          size: 'mini',
-          label: '紧凑',
+          size: "mini",
+          label: "紧凑",
         },
       ],
-    }
+    };
   },
   methods: {
     handleToggleDensity({ size }) {
-      this.selected_density = size
+      this.selected_density = size;
+      this.$emit("density-change", size);
+      this.onDensityChange(size);
+    },
+    onDensityChange(size) {
+      this.tableSize = size;
+      if (this.isRequireSave()) {
+        localStorage.setItem(
+          `${TABLE_SIZE_SETTING_KEY}-${this.getTableId()}`,
+          size
+        );
+      }
+      this.$emit("onDensityChange", size);
     },
   },
-}
+  mounted() {
+    this.selected_density =
+      localStorage.getItem(`${TABLE_SIZE_SETTING_KEY}-${this.getTableId()}`) ||
+      "medium";
+  },
+};
 </script>
 <style lang="less" scoped></style>
 <style lang="less">

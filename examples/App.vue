@@ -16,10 +16,12 @@
       paginationAlign="center"
       @paginationChange="onPaginationChange"
       @selection-change="selectionChange"
+      @onRefreshTable="onRefreshTable"
+      @onDensityChange="onDensityChange"
     >
-      <p slot="expand" slot-scope="scope">
+      <div slot="expand" slot-scope="scope">
         <span>{{ scope.row.row.name }}</span>
-      </p>
+      </div>
     </WxTable>
   </div>
 </template>
@@ -79,9 +81,6 @@ export default {
     };
   },
   methods: {
-    console(val) {
-      console.log(val);
-    },
     fetchData({ pageSize, pageNum }) {
       this.tableLoading = true;
       axios("/api/page", {
@@ -109,6 +108,12 @@ export default {
     },
     selectionChange(val) {
       console.log(val);
+    },
+    onRefreshTable() {
+      this.fetchData({});
+    },
+    onDensityChange(size) {
+      console.log(size);
     },
   },
   mounted() {

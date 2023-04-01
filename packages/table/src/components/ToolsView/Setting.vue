@@ -10,7 +10,9 @@
           <el-checkbox :indeterminate="indeterminate" v-model="colShow"
             >列展示</el-checkbox
           >
-          <el-checkbox v-model="indexShow">序号列</el-checkbox>
+          <el-checkbox v-model="indexShow" @change="onIndexChange"
+            >序号列</el-checkbox
+          >
         </div>
         <div class="reset">
           <span>重置</span>
@@ -24,9 +26,9 @@
   </el-popover>
 </template>
 <script>
-import SETTING_ICON from '../../icon/setting.png'
+import SETTING_ICON from "../../icon/setting.png";
 export default {
-  name: 'Setting',
+  name: "Setting",
   data() {
     return {
       SETTING_ICON,
@@ -34,9 +36,14 @@ export default {
       indexShow: false,
 
       indeterminate: true,
-    }
+    };
   },
-}
+  methods: {
+    onIndexChange(val) {
+      console.log(val);
+    },
+  },
+};
 </script>
 <style lang="less" scoped></style>
 <style lang="less">
