@@ -20,10 +20,9 @@
 </template>
 <script>
 import DENSITY_ICON from "../../icon/density.png";
-import { TABLE_SIZE_SETTING_KEY } from "../../config/index";
 export default {
   name: "DensityTool",
-  inject: ["getTableId", "updateTableSize", "isRequireSave"],
+  inject: ["getTableId", "getLocalTableSize"],
   data() {
     return {
       DENSITY_ICON,
@@ -52,19 +51,11 @@ export default {
     },
     onDensityChange(size) {
       this.tableSize = size;
-      if (this.isRequireSave()) {
-        localStorage.setItem(
-          `${TABLE_SIZE_SETTING_KEY}-${this.getTableId()}`,
-          size
-        );
-      }
       this.$emit("onDensityChange", size);
     },
   },
   mounted() {
-    this.selected_density =
-      localStorage.getItem(`${TABLE_SIZE_SETTING_KEY}-${this.getTableId()}`) ||
-      "medium";
+    this.selected_density = this.getLocalTableSize() || "medium";
   },
 };
 </script>

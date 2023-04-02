@@ -45,35 +45,29 @@ export default {
           label: "姓名",
           prop: "name",
           align: "left",
-          children: [
-            {
-              label: "姓",
-              prop: "xing",
-              align: "left",
-            },
-            {
-              label: "名",
-              prop: "yyy",
-            },
-            {
-              label: "名1",
-              prop: "yyy",
-            },
-          ],
+          show: true,
         },
         {
           label: "年龄",
           prop: "age",
           minWidth: "100px",
           sortable: true,
+          show: true,
         },
         {
           label: "性别",
           prop: "gender",
+          show: true,
         },
         {
           label: "邮箱",
           prop: "email",
+          show: true,
+        },
+        {
+          label: "工作",
+          prop: "job",
+          show: true,
         },
       ],
 

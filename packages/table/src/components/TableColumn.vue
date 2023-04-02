@@ -1,5 +1,5 @@
 <template>
-  <el-table-column align="center" v-bind="$attrs">
+  <el-table-column align="center" v-bind="$attrs" v-if="$attrs.show">
     <!-- 自定义单元格内容 -->
     <template v-if="$attrs.render" v-slot="scope">
       <render-dom
@@ -11,21 +11,20 @@
     </template>
 
     <!-- 递归children 支持多级表头和合并单元格-->
-    <template v-if="$attrs.children && $attrs.children.length > 0">
+    <template v-for="(column, index) in $attrs.children">
       <table-column
-        v-for="(column, index) in $attrs.children"
-        :key="index"
+        v-if="$attrs.children && $attrs.children.length > 0 && $attrs.show"
         v-bind="column"
       ></table-column>
     </template>
   </el-table-column>
 </template>
 <script>
-import { RenderDom } from './RenderDom'
+import { RenderDom } from "./RenderDom";
 export default {
-  name: 'TableColumn',
+  name: "TableColumn",
   components: {
     RenderDom,
   },
-}
+};
 </script>

@@ -1,5 +1,5 @@
 <template>
-  <div class="wx-table">
+  <div class="wx-table" v-loading="loading">
     <ToolsView
       @refresh-table="$emit('onRefreshTable')"
       @density-change="onDensityChange"
@@ -9,7 +9,6 @@
       v-on="$listeners"
       :size="tableSize"
       @header-dragend="onHeaderDragend"
-      v-loading="loading"
     >
       <!-- 展开行 -->
       <template v-if="expand">
@@ -31,7 +30,7 @@
 
       <!-- 索引 -->
       <el-table-column
-        v-if="index"
+        v-if="showIndex"
         type="index"
         :align="indexAlign"
         :resizable="false"
@@ -75,7 +74,10 @@ import { PaginationMixin } from "./mixins/PaginationMixin";
 import { HeaderDragendMixin } from "./mixins/HeaderDragendMixin";
 import { RequestMixin } from "./mixins/RequestMixin";
 import { CommonMixin } from "./mixins/CommonMixin";
-import { TABLE_SIZE_SETTING_KEY } from "./config/index";
+import {
+  TABLE_SIZE_SETTING_KEY,
+  TABLE_INDEX_SETTING_KEY,
+} from "./config/index";
 export default {
   name: "WxTable",
   mixins: [CommonMixin, PaginationMixin, HeaderDragendMixin, RequestMixin],
@@ -88,8 +90,22 @@ export default {
       getTableId: () => {
         return this.tableId;
       },
+      getTableColumn: () => {
+        return this.tableColumn;
+      },
       updateTableSize: this.updateTableSize,
       isRequireSave: this.isRequireSave,
+      updateTableColumn: this.updateTableColumn,
+      updateIndexShow: this.updateIndexShow,
+      getLocalTableColumns: () => {
+        return this.getItem(this.tableId);
+      },
+      getLocalTableSize: () => {
+        return this.getItem(this.tableSizeKey);
+      },
+      getLocalTableShowIndex: () => {
+        return this.getItem(this.tableShowIndexKey);
+      },
     };
   },
   props: {
@@ -192,9 +208,18 @@ export default {
   },
   data() {
     return {
+      showIndex: true,
       tableColumn: [],
       tableSize: "medium",
     };
+  },
+  computed: {
+    tableSizeKey({ tableId }) {
+      return `${TABLE_SIZE_SETTING_KEY}-${tableId}`;
+    },
+    tableShowIndexKey({ tableId }) {
+      return `${TABLE_INDEX_SETTING_KEY}-${tableId}`;
+    },
   },
   watch: {
     columns: {
@@ -204,32 +229,51 @@ export default {
       deep: true,
       immediate: true,
     },
+    index: {
+      handler(val) {
+        this.showIndex = val;
+      },
+      immediate: true,
+    },
   },
 
   methods: {
+    updateTableColumn(columns) {
+      this.tableColumn = columns;
+      if (this.isRequireSave()) {
+        this.setItem(this.tableId, columns);
+      }
+    },
+    updateIndexShow(show) {
+      this.showIndex = show;
+      if (this.isRequireSave()) {
+        this.setItem(this.tableShowIndexKey, show);
+      }
+    },
     updateTableSize(size) {
       this.tableSize = size;
+      if (this.isRequireSave()) {
+        this.setItem(this.tableSizeKey, size);
+      }
     },
     onDensityChange(size) {
       this.tableSize = size;
       if (this.isRequireSave()) {
-        localStorage.setItem(`${TABLE_SIZE_SETTING_KEY}-${this.tableId}`, size);
+        this.setItem(this.tableSizeKey, size);
       }
       this.$emit("onDensityChange", size);
     },
-    setDensitySize() {
+    setTableSetting() {
       if (this.isRequireSave()) {
-        const localTableSize = localStorage.getItem(
-          `${TABLE_SIZE_SETTING_KEY}-${this.tableId}`
-        );
-        if (localTableSize) {
-          this.tableSize = localTableSize;
-        }
+        const localTableSize = this.getItem(this.tableSizeKey);
+        const localTableShowIndex = this.getItem(this.tableShowIndexKey);
+        localTableSize && (this.tableSize = localTableSize);
+        this.showIndex = localTableShowIndex;
       }
     },
   },
   mounted() {
-    this.setDensitySize();
+    this.setTableSetting();
   },
 };
 </script>

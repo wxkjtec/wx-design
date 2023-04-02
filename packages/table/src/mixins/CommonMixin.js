@@ -22,17 +22,33 @@ export const CommonMixin = {
 
     // 保存Columns的配置
     saveColumns(columns) {
-      localStorage.setItem(this.tableId, JSON.stringify(columns));
+      this.setItem(this.tableId, columns);
     },
 
-    // 在加载table时，从本地中获取列宽配置
+    // 在加载table时，从本地中获取配置
     setColumns() {
       const { tableId } = this;
       if (tableId) {
-        const localColumns = localStorage.getItem(tableId);
-        if (localColumns) {
-          this.tableColumn = JSON.parse(localColumns);
-        }
+        console.log(this.getItem(tableId));
+        this.tableColumn = this.getItem(tableId);
+      }
+    },
+
+    // setItem存储
+    setItem(key, value) {
+      if (typeof value === "object") {
+        value = JSON.stringify(value);
+      }
+      localStorage.setItem(key, value);
+    },
+
+    // getItem取值
+    getItem(key) {
+      const data = localStorage.getItem(key);
+      try {
+        return JSON.parse(data);
+      } catch (e) {
+        return data;
       }
     },
   },
