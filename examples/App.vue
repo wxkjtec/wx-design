@@ -46,6 +46,7 @@ export default {
           prop: "name",
           align: "left",
           show: true,
+          fixed: "left",
         },
         {
           label: "年龄",

@@ -29,8 +29,7 @@ export const CommonMixin = {
     setColumns() {
       const { tableId } = this;
       if (tableId) {
-        console.log(this.getItem(tableId));
-        this.tableColumn = this.getItem(tableId);
+        this.tableColumn = this.getItem(tableId) || this.columns;
       }
     },
 

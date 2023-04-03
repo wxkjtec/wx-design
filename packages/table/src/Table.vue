@@ -12,7 +12,12 @@
     >
       <!-- 展开行 -->
       <template v-if="expand">
-        <el-table-column type="expand" :resizable="false" align="center">
+        <el-table-column
+          type="expand"
+          :resizable="false"
+          align="center"
+          fixed="left"
+        >
           <template slot-scope="props">
             <slot name="expand" :row="props" />
           </template>
@@ -26,12 +31,14 @@
         type="selection"
         :resizable="false"
         :width="selectionColWidth"
+        fixed="left"
       />
 
       <!-- 索引 -->
       <el-table-column
         v-if="showIndex"
         type="index"
+        fixed="left"
         :align="indexAlign"
         :resizable="false"
         :width="indexColWidth"
@@ -93,12 +100,15 @@ export default {
       getTableColumn: () => {
         return this.tableColumn;
       },
+      getOriginalTableColum: () => {
+        return this.columns;
+      },
       updateTableSize: this.updateTableSize,
       isRequireSave: this.isRequireSave,
       updateTableColumn: this.updateTableColumn,
       updateIndexShow: this.updateIndexShow,
       getLocalTableColumns: () => {
-        return this.getItem(this.tableId);
+        return this.getItem(this.tableId) || this.columns;
       },
       getLocalTableSize: () => {
         return this.getItem(this.tableSizeKey);
@@ -225,9 +235,10 @@ export default {
     columns: {
       handler(val) {
         this.tableColumn = val;
+        console.log(val);
       },
       deep: true,
-      immediate: true,
+      // immediate: true,
     },
     index: {
       handler(val) {
@@ -239,6 +250,7 @@ export default {
 
   methods: {
     updateTableColumn(columns) {
+      console.log(columns);
       this.tableColumn = columns;
       if (this.isRequireSave()) {
         this.setItem(this.tableId, columns);

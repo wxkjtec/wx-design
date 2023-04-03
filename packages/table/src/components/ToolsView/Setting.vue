@@ -18,7 +18,7 @@
           >
         </div>
         <div class="reset">
-          <span>重置</span>
+          <span @click="handleReset">重置</span>
         </div>
       </div>
       <el-checkbox-group
@@ -31,12 +31,30 @@
           @change="onOrderChange"
         >
           <div class="items" v-for="(item, index) of items" :key="index">
-            <img :src="MOVE_ICON" class="icon" />
-            <el-checkbox
-              v-model="item.show"
-              class="checkbox"
-              :label="item.label"
-            ></el-checkbox>
+            <!-- 移动列和勾选列 -->
+            <div class="left">
+              <img :src="MOVE_ICON" class="icon" />
+              <el-checkbox
+                v-model="item.show"
+                class="checkbox"
+                :label="item.label"
+              ></el-checkbox>
+            </div>
+            <!-- 冻结列 -->
+            <div class="right">
+              <img
+                class="arrow-icon"
+                :src="item.fixed === 'left' ? ARROW_LEFT_ACTIVE : ARROW_LEFT"
+                alt=""
+                @click="handleFixedColChange(item, 'left')"
+              />
+              <img
+                class="arrow-icon"
+                :src="item.fixed === 'right' ? ARROW_RIGHT_ACTIVE : ARROW_RIGHT"
+                alt=""
+                @click="handleFixedColChange(item, 'right')"
+              />
+            </div>
           </div>
         </Draggable>
       </el-checkbox-group>
@@ -50,6 +68,10 @@
 import Draggable from "vuedraggable";
 import SETTING_ICON from "../../icon/setting.png";
 import MOVE_ICON from "../../icon/move.png";
+import ARROW_LEFT from "../../icon/arrow-left.png";
+import ARROW_LEFT_ACTIVE from "../../icon/arrow-left-active.png";
+import ARROW_RIGHT from "../../icon/arrow-right.png";
+import ARROW_RIGHT_ACTIVE from "../../icon/arrow-right-active.png";
 export default {
   name: "Setting",
   components: {
@@ -61,11 +83,18 @@ export default {
     "getLocalTableShowIndex",
     "getTableColumn",
     "getLocalTableColumns",
+    "getOriginalTableColum",
   ],
   data() {
     return {
       SETTING_ICON,
       MOVE_ICON,
+
+      ARROW_LEFT,
+      ARROW_LEFT_ACTIVE,
+      ARROW_RIGHT,
+      ARROW_RIGHT_ACTIVE,
+
       checkAll: false, // 是否勾选所有列
       showIndex: true, // 是否显示索引列
 
@@ -90,7 +119,6 @@ export default {
       return columns;
     },
     handleCheckAllChange(value) {
-      console.log(value);
       this.items = this.toggleCheckAll(this.items, value);
 
       this.updateTableColumn(this.items);
@@ -99,7 +127,6 @@ export default {
       this.isIndeterminate = false;
     },
     handleCheckedItemsChange(value, onlyChange = false) {
-      console.log(onlyChange);
       const isCheckAll = value.length === this.items.length;
       if (isCheckAll) {
         this.checkAll = true;
@@ -117,6 +144,21 @@ export default {
       !onlyChange && this.updateTableColumn(this.items);
     },
     onOrderChange(val) {
+      this.updateTableColumn(this.items);
+    },
+
+    handleFixedColChange({ prop }, arrow) {
+      this.items = this.items.map((item) => {
+        if (item.prop === prop) {
+          item.fixed = item.fixed === arrow ? false : arrow;
+        }
+        return item;
+      });
+      this.updateTableColumn(this.items);
+    },
+    // 重置table columns
+    handleReset() {
+      this.items = this.getOriginalTableColum();
       this.updateTableColumn(this.items);
     },
   },
@@ -146,22 +188,42 @@ export default {
   height: 34px;
   padding: 0 13px;
   display: flex;
+  justify-content: space-between;
   align-items: center;
   font-size: 0;
-  .icon {
-    width: 16px;
-    height: 16px;
-    cursor: move;
+  .left,
+  .right {
+    height: 100%;
+    display: flex;
+    align-items: center;
   }
-  .checkbox {
-    width: 16px;
-    height: 16px;
-    margin: 0 6px;
-    position: relative;
-    top: -1px;
+  .left {
+    .icon {
+      width: 16px;
+      height: 16px;
+      cursor: move;
+    }
+    .checkbox {
+      width: 16px;
+      height: 16px;
+      margin: 0 6px;
+      position: relative;
+      top: -1px;
+    }
+    .name {
+      font-size: 14px;
+    }
   }
-  .name {
+  .right {
     font-size: 14px;
+    .arrow-icon {
+      width: 16px;
+      height: 16px;
+      cursor: pointer;
+      &:last-child {
+        margin-left: 10px;
+      }
+    }
   }
 }
 
