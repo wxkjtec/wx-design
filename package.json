@@ -1,6 +1,6 @@
 {
   "name": "wx-design",
-  "version": "0.1.9",
+  "version": "0.1.10",
   "private": false,
   "author": {
     "name": "dmhb",
@@ -13,7 +13,8 @@
     "release": "bumpp --commit --push --tag && npm publish"
   },
   "files": [
-    "dist"
+    "dist",
+    "packages"
   ],
   "main": "dist/wx-design.umd.js",
   "dependencies": {
