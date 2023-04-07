@@ -2,7 +2,6 @@
   <div id="app">
     <WxTable
       tableId="table1688"
-      max-height="500px"
       size="mini"
       background
       :pagination="pagination"
@@ -11,17 +10,14 @@
       :loading="tableLoading"
       border
       stripe
-      expand
       index
-      paginationAlign="center"
+      paginationAlign="right"
       @paginationChange="onPaginationChange"
       @selection-change="selectionChange"
       @onRefreshTable="onRefreshTable"
       @onDensityChange="onDensityChange"
     >
-      <div slot="expand" slot-scope="scope">
-        <span>{{ scope.row.row.name }}</span>
-      </div>
+      <div slot="title">基础表格</div>
     </WxTable>
   </div>
 </template>

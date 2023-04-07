@@ -1,10 +1,16 @@
 <template>
-  <div class="wx-table" v-loading="loading">
+  <div class="wx-table-container" v-loading="loading">
     <ToolsView
+      v-if="hasToolsBox"
       @refresh-table="$emit('onRefreshTable')"
       @density-change="onDensityChange"
-    />
+    >
+      <template slot="tools-box-title">
+        <slot name="title"> </slot>
+      </template>
+    </ToolsView>
     <el-table
+      class="wx-table"
       v-bind="$attrs"
       v-on="$listeners"
       :size="tableSize"
@@ -53,12 +59,12 @@
           align: 'center',
           ...item,
         }"
-        resizable
+        :resizable="tableColumn.length - 1 !== index"
       />
     </el-table>
 
     <!-- 分页器 -->
-    <div :style="paginationStyle">
+    <div :style="paginationStyle" class="wx-table-pagination">
       <el-pagination
         v-if="pagination"
         v-bind="$attrs"
@@ -79,15 +85,15 @@ import TableColumn from "./components/TableColumn.vue";
 import ToolsView from "./components/ToolsView/index.vue";
 import { PaginationMixin } from "./mixins/PaginationMixin";
 import { HeaderDragendMixin } from "./mixins/HeaderDragendMixin";
-import { RequestMixin } from "./mixins/RequestMixin";
 import { CommonMixin } from "./mixins/CommonMixin";
+import { RedoHeightMixin } from "./mixins/RedoHeightMixin";
 import {
   TABLE_SIZE_SETTING_KEY,
   TABLE_INDEX_SETTING_KEY,
 } from "./config/index";
 export default {
   name: "WxTable",
-  mixins: [CommonMixin, PaginationMixin, HeaderDragendMixin, RequestMixin],
+  mixins: [CommonMixin, PaginationMixin, HeaderDragendMixin, RedoHeightMixin],
   components: {
     TableColumn,
     ToolsView,
@@ -126,6 +132,44 @@ export default {
     },
     // 是否保存table设置
     isSaveTableSetting: {
+      type: Boolean,
+      default: true,
+    },
+
+    // 继承父元素高度
+    isCanResizeParent: {
+      type: Boolean,
+      default: true,
+    },
+
+    // loading状态
+    loading: {
+      type: Boolean,
+      default: false,
+    },
+    // loading文本
+    loadingText: {
+      type: String,
+      default: "加载中...",
+    },
+    // loading文本颜色
+    loadingTextColor: {
+      type: String,
+      default: "#444",
+    },
+    // loading颜色
+    loadingColor: {
+      type: String,
+      default: "#3275F7",
+    },
+    // loading 遮罩颜色
+    loadingMaskColor: {
+      type: String,
+      default: "rgba(0, 0, 0, 0.01)",
+    },
+
+    // 是否显示工具箱
+    hasToolsBox: {
       type: Boolean,
       default: true,
     },
@@ -235,7 +279,6 @@ export default {
     columns: {
       handler(val) {
         this.tableColumn = val;
-        console.log(val);
       },
       deep: true,
       // immediate: true,
@@ -250,7 +293,6 @@ export default {
 
   methods: {
     updateTableColumn(columns) {
-      console.log(columns);
       this.tableColumn = columns;
       if (this.isRequireSave()) {
         this.setItem(this.tableId, columns);
@@ -291,8 +333,16 @@ export default {
 </script>
 
 <style lang="less" scoped>
-.wx-table {
+.wx-table-container {
   background: #fff;
-  padding: 6px;
+  // “去掉”滚动条占据的列
+  /deep/th {
+    &:nth-last-child(2) {
+      border-right: 0;
+    }
+    &:nth-last-child(1) {
+      background: #fff;
+    }
+  }
 }
 </style>

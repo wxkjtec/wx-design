@@ -1,8 +1,13 @@
 <template>
-  <div class="tools-view">
-    <RefreshTool @refresh-table="$emit('refresh-table')" />
-    <DensityTool @density-change="(val) => $emit('density-change', val)" />
-    <SettingTool />
+  <div class="wx-table-tools-view">
+    <div class="title">
+      <slot name="tools-box-title" />
+    </div>
+    <div class="tools-box">
+      <RefreshTool @refresh-table="$emit('refresh-table')" />
+      <DensityTool @density-change="(val) => $emit('density-change', val)" />
+      <SettingTool />
+    </div>
   </div>
 </template>
 <script>
@@ -16,28 +21,31 @@ export default {
     DensityTool,
     SettingTool,
   },
-  data() {
-    return {};
-  },
-  methods: {},
 };
 </script>
 <style lang="less" scoped>
-.tools-view {
+.wx-table-tools-view {
   height: 40px;
-  padding-right: 15px;
+  padding: 0 15px;
   display: flex;
-  justify-content: flex-end;
+  justify-content: space-between;
   align-items: center;
   font-size: 20px;
-  gap: 15px;
-  > span {
-    font-size: 0;
+  .title {
+    font-size: 14px;
+    color: #000;
   }
-  /deep/.tool-icon {
-    width: 18px;
-    height: 18px;
-    cursor: pointer;
+  .tools-box {
+    display: flex;
+    gap: 12px;
+    > span {
+      font-size: 0;
+    }
+    /deep/.tool-icon {
+      width: 18px;
+      height: 18px;
+      cursor: pointer;
+    }
   }
 }
 </style>

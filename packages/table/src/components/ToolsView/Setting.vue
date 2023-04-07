@@ -250,7 +250,6 @@ export default {
       }
     }
     .setting-content {
-      height: 200px;
       max-height: 300px;
       overflow: auto;
     }

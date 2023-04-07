@@ -7,9 +7,10 @@ export const PaginationMixin = {
         right: "flex-end",
       };
       return {
+        height: "46px",
         display: "flex",
         justifyContent: ALIGNMAP[paginationAlign] || "right",
-        marginTop: "6px",
+        alignItems: "center",
       };
     },
   },
