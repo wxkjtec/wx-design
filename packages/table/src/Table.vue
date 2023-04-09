@@ -1,5 +1,11 @@
 <template>
-  <div class="wx-table-container" v-loading="loading">
+  <div
+    class="wx-table-container"
+    v-loading="loading"
+    :element-loading-text="loadingText"
+    :element-loading-spinner="loadingIcon"
+    :element-loading-background="loadingMaskColor"
+  >
     <ToolsView
       v-if="hasToolsBox"
       @refresh-table="$emit('onRefreshTable')"
@@ -14,6 +20,7 @@
       v-bind="$attrs"
       v-on="$listeners"
       :size="tableSize"
+      :height="tableHeight"
       @header-dragend="onHeaderDragend"
     >
       <!-- 展开行 -->
@@ -152,15 +159,10 @@ export default {
       type: String,
       default: "加载中...",
     },
-    // loading文本颜色
-    loadingTextColor: {
+    // loading icon
+    loadingIcon: {
       type: String,
-      default: "#444",
-    },
-    // loading颜色
-    loadingColor: {
-      type: String,
-      default: "#3275F7",
+      default: "el-icon-loading",
     },
     // loading 遮罩颜色
     loadingMaskColor: {
@@ -265,6 +267,7 @@ export default {
       showIndex: true,
       tableColumn: [],
       tableSize: "medium",
+      tableHeight: ` `,
     };
   },
   computed: {
@@ -295,6 +298,7 @@ export default {
     updateTableColumn(columns) {
       this.tableColumn = columns;
       if (this.isRequireSave()) {
+        console.log(columns);
         this.setItem(this.tableId, columns);
       }
     },

@@ -16,17 +16,29 @@ export const RedoHeightMixin = {
 
       // 父元素高度
       const parentNodeHeight = this.$el.parentNode.offsetHeight;
-      this.$el.querySelector(".wx-table").style.height = `${
-        parentNodeHeight - toolsHeight - paginationHeight
+      console.log(parentNodeHeight);
+      this.tableHeight = `${
+        parentNodeHeight - toolsHeight - paginationHeight - 2
       }px`;
+      this.$nextTick(() => {
+        this.tableHeight = `${
+          parentNodeHeight - toolsHeight - paginationHeight
+        }px`;
+      });
     },
     getHeightBySelector(selector) {
       return document.querySelector(selector).offsetHeight;
     },
   },
   mounted() {
-    this.isCanResizeParent && this.calcTableHeight();
-    window.addEventListener("resize", this.calcTableHeight, false);
+    // this.$nextTick(() => {
+    //   this.isCanResizeParent && this.calcTableHeight();
+    // });
+    setTimeout(() => {
+      this.isCanResizeParent && this.calcTableHeight();
+    }, 300);
+
+    // window.addEventListener("resize", this.calcTableHeight, false);
   },
   beforeDestroy() {
     this.isCanResizeParent &&

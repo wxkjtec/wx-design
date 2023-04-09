@@ -9,6 +9,8 @@ const data = Mock.mock({
     {
       "id|+1": 1,
       name: "@cname",
+      avatar:
+        "https://fuss10.elemecdn.com/9/bb/e27858e973f5d7d3904835f46abbdjpeg.jpeg",
       "age|18-70": 1,
       "gender|1": ["男", "女"],
       email: "mock@mock.com",

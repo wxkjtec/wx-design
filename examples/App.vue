@@ -40,9 +40,25 @@ export default {
         {
           label: "姓名",
           prop: "name",
-          align: "left",
           show: true,
-          fixed: "left",
+        },
+        {
+          label: "头像",
+          prop: "avatar",
+          show: true,
+          render: (h, { row }) => {
+            return h("el-image", {
+              props: {
+                src: row.avatar,
+                "preview-src-list": [row.avatar],
+              },
+              style: {
+                width: "48px",
+                height: "48px",
+                borderRadius: "50%",
+              },
+            });
+          },
         },
         {
           label: "年龄",

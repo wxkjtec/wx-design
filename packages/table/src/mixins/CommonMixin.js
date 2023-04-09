@@ -1,3 +1,4 @@
+import { cloneDeep } from "lodash-es";
 export const CommonMixin = {
   methods: {
     isRequireSave() {
@@ -25,11 +26,34 @@ export const CommonMixin = {
       this.setItem(this.tableId, columns);
     },
 
+    // 读取配置信息到当前columns  暂支持一级表头
+    getFilterConfigColumns(newColumns, localColumns) {
+      if (!localColumns || localColumns.length === 0) {
+        return newColumns;
+      }
+      let resultColumns = cloneDeep(newColumns);
+      resultColumns = resultColumns.map((item) => {
+        localColumns.forEach((column) => {
+          if (item.prop === column.prop) {
+            item.width = column.width;
+            item.show = column.show;
+            item.fixed = column.fixed || undefined;
+          }
+        });
+        return item;
+      });
+      return resultColumns;
+    },
+
     // 在加载table时，从本地中获取配置
     setColumns() {
       const { tableId } = this;
       if (tableId) {
-        this.tableColumn = this.getItem(tableId) || this.columns;
+        // 读取本地存储的配置进行过滤
+        this.tableColumn = this.getFilterConfigColumns(
+          this.columns,
+          this.getItem(tableId)
+        );
       }
     },
 
