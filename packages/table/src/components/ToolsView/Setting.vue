@@ -166,7 +166,7 @@ export default {
     this.showIndex = this.getLocalTableShowIndex();
     this.items = this.getLocalTableColumns();
     this.checkedItems = this.items
-      .filter((item) => item.show)
+      .filter((item) => item.show || typeof item.show !== "boolean")
       .map((item) => item.label);
     this.handleCheckedItemsChange(this.checkedItems, true);
   },

@@ -36,7 +36,7 @@ export const CommonMixin = {
         localColumns.forEach((column) => {
           if (item.prop === column.prop) {
             item.width = column.width;
-            item.show = column.show;
+            item.show = typeof column.show === "boolean" ? column.show : true;
             item.fixed = column.fixed || undefined;
           }
         });

@@ -296,9 +296,8 @@ export default {
 
   methods: {
     updateTableColumn(columns) {
-      this.tableColumn = columns;
+      this.tableColumn = this.getFilterConfigColumns(this.columns, columns);
       if (this.isRequireSave()) {
-        console.log(columns);
         this.setItem(this.tableId, columns);
       }
     },

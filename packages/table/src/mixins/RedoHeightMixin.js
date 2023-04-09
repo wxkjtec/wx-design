@@ -16,7 +16,6 @@ export const RedoHeightMixin = {
 
       // 父元素高度
       const parentNodeHeight = this.$el.parentNode.offsetHeight;
-      console.log(parentNodeHeight);
       this.tableHeight = `${
         parentNodeHeight - toolsHeight - paginationHeight - 2
       }px`;
@@ -31,14 +30,10 @@ export const RedoHeightMixin = {
     },
   },
   mounted() {
-    // this.$nextTick(() => {
-    //   this.isCanResizeParent && this.calcTableHeight();
-    // });
     setTimeout(() => {
       this.isCanResizeParent && this.calcTableHeight();
-    }, 300);
-
-    // window.addEventListener("resize", this.calcTableHeight, false);
+    }, 0);
+    window.addEventListener("resize", this.calcTableHeight, false);
   },
   beforeDestroy() {
     this.isCanResizeParent &&

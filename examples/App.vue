@@ -65,17 +65,15 @@ export default {
           prop: "age",
           minWidth: "100px",
           sortable: true,
-          show: true,
+          show: false,
         },
         {
           label: "性别",
           prop: "gender",
-          show: true,
         },
         {
           label: "邮箱",
           prop: "email",
-          show: true,
         },
         {
           label: "工作",
