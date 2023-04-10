@@ -4,9 +4,9 @@
       <div
         :class="[
           'density-item',
-          selected_density === item.size ? 'density-item-selected' : '',
+          selected_density == item.size ? 'density-item-selected' : '',
         ]"
-        v-for="item of density"
+        v-for="item of getLineHeightSizes()"
         :key="item.size"
         @click="handleToggleDensity(item)"
       >
@@ -22,25 +22,12 @@
 import DENSITY_ICON from "../../icon/density.png";
 export default {
   name: "DensityTool",
-  inject: ["getTableId", "getLocalTableSize"],
+  inject: ["getTableId", "getLocalTableSize", "getLineHeightSizes"],
   data() {
     return {
       DENSITY_ICON,
-      selected_density: "medium",
-      density: [
-        {
-          size: "medium",
-          label: "默认",
-        },
-        {
-          size: "small",
-          label: "中等",
-        },
-        {
-          size: "mini",
-          label: "紧凑",
-        },
-      ],
+      selected_density: "",
+      density: this.getLineHeightSizes(),
     };
   },
   methods: {
@@ -55,11 +42,11 @@ export default {
     },
   },
   mounted() {
-    this.selected_density = this.getLocalTableSize() || "medium";
+    this.selected_density =
+      this.getLocalTableSize() || this.getLineHeightSizes()[0].size || 80;
   },
 };
 </script>
-<style lang="less" scoped></style>
 <style lang="less">
 .popper-lh-class {
   padding: 0;

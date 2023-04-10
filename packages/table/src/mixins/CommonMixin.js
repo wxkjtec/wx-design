@@ -27,17 +27,22 @@ export const CommonMixin = {
     },
 
     // 读取配置信息到当前columns  暂支持一级表头
+    // newColumns  外部传入的column
+    // localColumns  本地修改后的column
     getFilterConfigColumns(newColumns, localColumns) {
       if (!localColumns || localColumns.length === 0) {
         return newColumns;
       }
-      let resultColumns = cloneDeep(newColumns);
+      let resultColumns = cloneDeep(localColumns);
       resultColumns = resultColumns.map((item) => {
-        localColumns.forEach((column) => {
-          if (item.prop === column.prop) {
-            item.width = column.width;
-            item.show = typeof column.show === "boolean" ? column.show : true;
-            item.fixed = column.fixed || undefined;
+        newColumns.forEach((column) => {
+          if (column.label === item.label) {
+            item = {
+              ...column,
+              width: item.width,
+              show: typeof item.show === "boolean" ? item.show : true,
+              fixed: item.fixed || undefined,
+            };
           }
         });
         return item;
@@ -45,15 +50,17 @@ export const CommonMixin = {
       return resultColumns;
     },
 
-    // 在加载table时，从本地中获取配置
+    // 在加载table时，从本地中获取配置，同时再次更新本地配置（传入的可能有更新）
     setColumns() {
       const { tableId } = this;
       if (tableId) {
         // 读取本地存储的配置进行过滤
         this.tableColumn = this.getFilterConfigColumns(
           this.columns,
-          this.getItem(tableId)
+          this.getItem(tableId),
+          false
         );
+        this.saveColumns(this.tableColumn);
       }
     },
 

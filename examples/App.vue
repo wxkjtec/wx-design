@@ -40,12 +40,11 @@ export default {
         {
           label: "姓名",
           prop: "name",
-          show: true,
+          width: "200px",
         },
         {
           label: "头像",
           prop: "avatar",
-          show: true,
           render: (h, { row }) => {
             return h("el-image", {
               props: {
@@ -65,7 +64,7 @@ export default {
           prop: "age",
           minWidth: "100px",
           sortable: true,
-          show: false,
+          show: true,
         },
         {
           label: "性别",
@@ -74,11 +73,19 @@ export default {
         {
           label: "邮箱",
           prop: "email",
+          width: "600px",
         },
         {
           label: "工作",
           prop: "job",
           show: true,
+          width: "700px",
+        },
+        {
+          label: "操作",
+          fixed: "right",
+          width: "100px",
+          isOperate: true,
         },
       ],
 

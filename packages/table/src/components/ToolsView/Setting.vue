@@ -32,7 +32,7 @@
         >
           <div class="items" v-for="(item, index) of items" :key="index">
             <!-- 移动列和勾选列 -->
-            <div class="left">
+            <div class="left" v-if="!item.isOperate">
               <img :src="MOVE_ICON" class="icon" />
               <el-checkbox
                 v-model="item.show"
@@ -41,7 +41,7 @@
               ></el-checkbox>
             </div>
             <!-- 冻结列 -->
-            <div class="right">
+            <div class="right" v-if="!item.isOperate">
               <img
                 class="arrow-icon"
                 :src="item.fixed === 'left' ? ARROW_LEFT_ACTIVE : ARROW_LEFT"
@@ -84,6 +84,7 @@ export default {
     "getTableColumn",
     "getLocalTableColumns",
     "getOriginalTableColum",
+    "doLayout",
   ],
   data() {
     return {
@@ -108,6 +109,9 @@ export default {
   methods: {
     onIndexChange(val) {
       this.updateIndexShow(val);
+      this.$nextTick(() => {
+        this.doLayout();
+      });
     },
     toggleCheckAll(columns, isCheck) {
       columns.map((item) => {
@@ -125,8 +129,13 @@ export default {
 
       this.checkedItems = value ? this.items.map((item) => item.label) : [];
       this.isIndeterminate = false;
+
+      this.$nextTick(() => {
+        this.doLayout();
+      });
     },
-    handleCheckedItemsChange(value, onlyChange = false) {
+    // updateNewConfig  是否采用传入的配置
+    handleCheckedItemsChange(value) {
       const isCheckAll = value.length === this.items.length;
       if (isCheckAll) {
         this.checkAll = true;
@@ -141,7 +150,7 @@ export default {
         item.show = value.includes(item.label);
         return item;
       });
-      !onlyChange && this.updateTableColumn(this.items);
+      this.updateTableColumn(this.items);
     },
     onOrderChange(val) {
       this.updateTableColumn(this.items);
@@ -168,7 +177,7 @@ export default {
     this.checkedItems = this.items
       .filter((item) => item.show || typeof item.show !== "boolean")
       .map((item) => item.label);
-    this.handleCheckedItemsChange(this.checkedItems, true);
+    this.handleCheckedItemsChange(this.checkedItems);
   },
 };
 </script>

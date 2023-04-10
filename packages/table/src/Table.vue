@@ -17,20 +17,16 @@
     </ToolsView>
     <el-table
       class="wx-table"
+      ref="wx-table"
       v-bind="$attrs"
       v-on="$listeners"
-      :size="tableSize"
       :height="tableHeight"
       @header-dragend="onHeaderDragend"
+      :row-style="{ height: rowHeight }"
     >
       <!-- 展开行 -->
       <template v-if="expand">
-        <el-table-column
-          type="expand"
-          :resizable="false"
-          align="center"
-          fixed="left"
-        >
+        <el-table-column type="expand" :resizable="false" align="center">
           <template slot-scope="props">
             <slot name="expand" :row="props" />
           </template>
@@ -44,18 +40,17 @@
         type="selection"
         :resizable="false"
         :width="selectionColWidth"
-        fixed="left"
       />
 
       <!-- 索引 -->
       <el-table-column
         v-if="showIndex"
         type="index"
-        fixed="left"
         :align="indexAlign"
         :resizable="false"
         :width="indexColWidth"
         :label="indexColLabel"
+        fixed="left"
       ></el-table-column>
 
       <!-- 表格列 -->
@@ -116,6 +111,7 @@ export default {
       getOriginalTableColum: () => {
         return this.columns;
       },
+      getLineHeightSizes: () => this.lineHeightSizes,
       updateTableSize: this.updateTableSize,
       isRequireSave: this.isRequireSave,
       updateTableColumn: this.updateTableColumn,
@@ -129,6 +125,10 @@ export default {
       getLocalTableShowIndex: () => {
         return this.getItem(this.tableShowIndexKey);
       },
+      doLayout: () => {
+        console.log(this.$refs);
+        this.$refs["wx-table"].doLayout();
+      },
     };
   },
   props: {
@@ -141,6 +141,25 @@ export default {
     isSaveTableSetting: {
       type: Boolean,
       default: true,
+    },
+
+    // 表格密度选项设置（行高）
+    lineHeightSizes: {
+      type: Array,
+      default: () => [
+        {
+          label: "默认",
+          size: "80px",
+        },
+        {
+          label: "中等",
+          size: "60px",
+        },
+        {
+          label: "紧凑",
+          size: "40px",
+        },
+      ],
     },
 
     // 继承父元素高度
@@ -185,7 +204,7 @@ export default {
     // 是否显示索引
     index: {
       type: Boolean,
-      default: true,
+      default: false,
     },
     // 索引列对齐方式
     indexAlign: {
@@ -266,8 +285,8 @@ export default {
     return {
       showIndex: true,
       tableColumn: [],
-      tableSize: "medium",
       tableHeight: ` `,
+      rowHeight: this.lineHeightSizes[0].size,
     };
   },
   computed: {
@@ -295,8 +314,12 @@ export default {
   },
 
   methods: {
-    updateTableColumn(columns) {
-      this.tableColumn = this.getFilterConfigColumns(this.columns, columns);
+    updateTableColumn(columns, updateLocalConfig) {
+      this.tableColumn = this.getFilterConfigColumns(
+        this.columns,
+        columns,
+        updateLocalConfig
+      );
       if (this.isRequireSave()) {
         this.setItem(this.tableId, columns);
       }
@@ -308,13 +331,13 @@ export default {
       }
     },
     updateTableSize(size) {
-      this.tableSize = size;
+      this.rowHeight = size;
       if (this.isRequireSave()) {
         this.setItem(this.tableSizeKey, size);
       }
     },
     onDensityChange(size) {
-      this.tableSize = size;
+      this.rowHeight = size;
       if (this.isRequireSave()) {
         this.setItem(this.tableSizeKey, size);
       }
@@ -324,7 +347,7 @@ export default {
       if (this.isRequireSave()) {
         const localTableSize = this.getItem(this.tableSizeKey);
         const localTableShowIndex = this.getItem(this.tableShowIndexKey);
-        localTableSize && (this.tableSize = localTableSize);
+        localTableSize && (this.rowHeight = localTableSize);
         this.showIndex = localTableShowIndex;
       }
     },
@@ -338,14 +361,5 @@ export default {
 <style lang="less" scoped>
 .wx-table-container {
   background: #fff;
-  // “去掉”滚动条占据的列
-  /deep/th {
-    &:nth-last-child(2) {
-      border-right: 0;
-    }
-    &:nth-last-child(1) {
-      background: #fff;
-    }
-  }
 }
 </style>
