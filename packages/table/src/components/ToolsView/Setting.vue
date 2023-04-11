@@ -122,6 +122,7 @@ export default {
       });
       return columns;
     },
+
     handleCheckAllChange(value) {
       this.items = this.toggleCheckAll(this.items, value);
 
@@ -134,7 +135,7 @@ export default {
         this.doLayout();
       });
     },
-    // updateNewConfig  是否采用传入的配置
+
     handleCheckedItemsChange(value) {
       const isCheckAll = value.length === this.items.length;
       if (isCheckAll) {
@@ -151,6 +152,9 @@ export default {
         return item;
       });
       this.updateTableColumn(this.items);
+      this.$nextTick(() => {
+        this.doLayout();
+      });
     },
     onOrderChange(val) {
       this.updateTableColumn(this.items);

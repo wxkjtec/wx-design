@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <!-- <WxTable
+    <WxTable
       tableId="table1688"
       size="mini"
       background
@@ -18,15 +18,15 @@
       @onDensityChange="onDensityChange"
     >
       <div slot="title">基础表格</div>
-    </WxTable> -->
-    <WxDate
+    </WxTable>
+    <!-- <WxDate
       type="daterange"
       v-model="date"
       :shortcuts="shotcuts"
       :startDate.sync="startDate"
       :endDate.sync="endDate"
     />
-    <button @click="click">测试值</button>
+    <button @click="click">测试值</button> -->
   </div>
 </template>
 
