@@ -17,13 +17,9 @@ export const RedoHeightMixin = {
       // 父元素高度
       const parentNodeHeight = this.$el.parentNode.offsetHeight;
       this.tableHeight = `${
-        parentNodeHeight - toolsHeight - paginationHeight - 2
+        parentNodeHeight - toolsHeight - paginationHeight - this.heightOffset
       }px`;
-      this.$nextTick(() => {
-        this.tableHeight = `${
-          parentNodeHeight - toolsHeight - paginationHeight
-        }px`;
-      });
+      this.doLayout();
     },
     getHeightBySelector(selector) {
       return document.querySelector(selector).offsetHeight;

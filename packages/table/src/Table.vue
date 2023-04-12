@@ -129,7 +129,6 @@ export default {
         return this.getItem(this.tableShowIndexKey);
       },
       doLayout: () => {
-        console.log(this.$refs);
         this.$refs["wx-table"].doLayout();
       },
     };
@@ -169,6 +168,11 @@ export default {
     isCanResizeParent: {
       type: Boolean,
       default: true,
+    },
+    // 高度偏移， 计算结果-偏移量
+    heightOffset: {
+      type: Number,
+      default: 0,
     },
 
     // loading状态
