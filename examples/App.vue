@@ -12,6 +12,7 @@
       stripe
       index
       paginationAlign="right"
+      :heightOffset="100"
       @paginationChange="onPaginationChange"
       @selection-change="selectionChange"
       @onRefreshTable="onRefreshTable"

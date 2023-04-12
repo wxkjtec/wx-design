@@ -19,7 +19,7 @@ export const RedoHeightMixin = {
       this.tableHeight = `${
         parentNodeHeight - toolsHeight - paginationHeight - this.heightOffset
       }px`;
-      this.doLayout();
+      this.$refs["wx-table"].doLayout();
     },
     getHeightBySelector(selector) {
       return document.querySelector(selector).offsetHeight;

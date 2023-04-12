@@ -3,6 +3,8 @@ import WxEcharts from "./echarts";
 import WxDialog from "./dialog";
 import WxTable from "./table";
 import WxDate from "./datePicker";
+import packageConfig from "../package.json";
+console.log(packageConfig);
 
 const components = [WxSelect, WxEcharts, WxDialog, WxTable, WxDate];
 

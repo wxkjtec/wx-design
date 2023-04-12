@@ -23,9 +23,6 @@ export default {
     DensityTool,
     SettingTool,
   },
-  mounted() {
-    console.log(this.$slots);
-  },
 };
 </script>
 <style lang="less" scoped>
