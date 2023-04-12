@@ -14,6 +14,9 @@
       <template slot="tools-box-title">
         <slot name="title"> </slot>
       </template>
+      <template slot="tool-bar">
+        <slot name="toolbar" />
+      </template>
     </ToolsView>
     <el-table
       class="wx-table"

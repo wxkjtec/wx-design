@@ -4,6 +4,8 @@
       <slot name="tools-box-title" />
     </div>
     <div class="tools-box">
+      <slot name="tool-bar" />
+      <div class="divide-line"></div>
       <RefreshTool @refresh-table="$emit('refresh-table')" />
       <DensityTool @density-change="(val) => $emit('density-change', val)" />
       <SettingTool />
@@ -21,6 +23,9 @@ export default {
     DensityTool,
     SettingTool,
   },
+  mounted() {
+    console.log(this.$slots);
+  },
 };
 </script>
 <style lang="less" scoped>
@@ -36,8 +41,15 @@ export default {
     color: #000;
   }
   .tools-box {
+    height: 100%;
     display: flex;
+    align-items: center;
     gap: 12px;
+    .divide-line {
+      width: 1px;
+      height: 56%;
+      background: #f2f6fc;
+    }
     > span {
       font-size: 0;
     }
