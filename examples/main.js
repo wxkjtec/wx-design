@@ -13,6 +13,8 @@ Vue.use(ElementUI);
 import Table from "../packages/table/index";
 import DatePicker from "../packages/datePicker/index";
 
+import "../packages/index";
+
 Vue.use(Table, {
   fetchSetting: {
     pageField: "pageNum",

@@ -5,7 +5,7 @@
     </div>
     <div class="tools-box">
       <slot name="tool-bar" />
-      <div class="divide-line"></div>
+      <div class="divide-line" v-if="$slots['tool-bar']"></div>
       <RefreshTool @refresh-table="$emit('refresh-table')" />
       <DensityTool @density-change="(val) => $emit('density-change', val)" />
       <SettingTool />
@@ -22,6 +22,9 @@ export default {
     RefreshTool,
     DensityTool,
     SettingTool,
+  },
+  mounted() {
+    console.log(this.$slots);
   },
 };
 </script>
