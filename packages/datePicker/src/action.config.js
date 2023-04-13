@@ -112,7 +112,7 @@ export const enumeration = [
       text: "最近半年",
       onClick(picker) {
         const end = dayjs().format("YYYY-MM-DD");
-        const start = dayjs().subtract(6, "year").format("YYYY-MM-DD");
+        const start = dayjs().subtract(6, "month").format("YYYY-MM-DD");
         picker.$emit("pick", [start, end]);
       },
     },
