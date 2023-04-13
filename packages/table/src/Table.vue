@@ -66,6 +66,12 @@
         }"
         :resizable="tableColumn.length - 1 !== index"
       />
+
+      <!-- 空状态 -->
+      <template slot="empty">
+        <slot name="empty" v-if="$slots.empty" />
+        <div v-else>暂无数据</div>
+      </template>
     </el-table>
 
     <!-- 分页器 -->
@@ -86,18 +92,15 @@
 </template>
 
 <script>
-import TableColumn from "./components/TableColumn.vue";
-import ToolsView from "./components/ToolsView/index.vue";
-import { PaginationMixin } from "./mixins/PaginationMixin";
-import { HeaderDragendMixin } from "./mixins/HeaderDragendMixin";
-import { CommonMixin } from "./mixins/CommonMixin";
-import { RedoHeightMixin } from "./mixins/RedoHeightMixin";
-import {
-  TABLE_SIZE_SETTING_KEY,
-  TABLE_INDEX_SETTING_KEY,
-} from "./config/index";
+import TableColumn from './components/TableColumn.vue'
+import ToolsView from './components/ToolsView/index.vue'
+import { PaginationMixin } from './mixins/PaginationMixin'
+import { HeaderDragendMixin } from './mixins/HeaderDragendMixin'
+import { CommonMixin } from './mixins/CommonMixin'
+import { RedoHeightMixin } from './mixins/RedoHeightMixin'
+import { TABLE_SIZE_SETTING_KEY, TABLE_INDEX_SETTING_KEY } from './config/index'
 export default {
-  name: "WxTable",
+  name: 'WxTable',
   mixins: [CommonMixin, PaginationMixin, HeaderDragendMixin, RedoHeightMixin],
   components: {
     TableColumn,
@@ -106,13 +109,13 @@ export default {
   provide() {
     return {
       getTableId: () => {
-        return this.tableId;
+        return this.tableId
       },
       getTableColumn: () => {
-        return this.tableColumn;
+        return this.tableColumn
       },
       getOriginalTableColum: () => {
-        return this.columns;
+        return this.columns
       },
       getLineHeightSizes: () => this.lineHeightSizes,
       updateTableSize: this.updateTableSize,
@@ -120,24 +123,24 @@ export default {
       updateTableColumn: this.updateTableColumn,
       updateIndexShow: this.updateIndexShow,
       getLocalTableColumns: () => {
-        return this.getItem(this.tableId) || this.columns;
+        return this.getItem(this.tableId) || this.columns
       },
       getLocalTableSize: () => {
-        return this.getItem(this.tableSizeKey);
+        return this.getItem(this.tableSizeKey)
       },
       getLocalTableShowIndex: () => {
-        return this.getItem(this.tableShowIndexKey);
+        return this.getItem(this.tableShowIndexKey)
       },
       doLayout: () => {
-        this.$refs["wx-table"].doLayout();
+        this.$refs['wx-table'].doLayout()
       },
-    };
+    }
   },
   props: {
     // table唯一标识
     tableId: {
       type: String,
-      default: "",
+      default: '',
     },
     // 是否保存table设置
     isSaveTableSetting: {
@@ -150,16 +153,16 @@ export default {
       type: Array,
       default: () => [
         {
-          label: "默认",
-          size: "80px",
+          label: '默认',
+          size: '80px',
         },
         {
-          label: "中等",
-          size: "60px",
+          label: '中等',
+          size: '60px',
         },
         {
-          label: "紧凑",
-          size: "40px",
+          label: '紧凑',
+          size: '40px',
         },
       ],
     },
@@ -183,17 +186,17 @@ export default {
     // loading文本
     loadingText: {
       type: String,
-      default: "加载中...",
+      default: '加载中...',
     },
     // loading icon
     loadingIcon: {
       type: String,
-      default: "el-icon-loading",
+      default: 'el-icon-loading',
     },
     // loading 遮罩颜色
     loadingMaskColor: {
       type: String,
-      default: "rgba(0, 0, 0, 0.01)",
+      default: 'rgba(0, 0, 0, 0.01)',
     },
 
     // 是否显示工具箱
@@ -216,12 +219,12 @@ export default {
     // 索引列对齐方式
     indexAlign: {
       type: String,
-      default: "center",
+      default: 'center',
     },
     // 索引列名称
     indexColLabel: {
       type: String,
-      default: "序号",
+      default: '序号',
     },
     // 索引列宽
     indexColWidth: {
@@ -249,16 +252,16 @@ export default {
     // table size
     defaultSize: {
       type: String,
-      default: "middle",
+      default: 'middle',
     },
 
     // basic-table setting
     fetchSetting: {
       type: Object,
       default: () => ({
-        pageField: "pageNum",
-        sizeField: "pageSize",
-        totalField: "total",
+        pageField: 'pageNum',
+        sizeField: 'pageSize',
+        totalField: 'total',
       }),
     },
 
@@ -278,13 +281,13 @@ export default {
 
     paginationLayout: {
       type: String,
-      default: "total, sizes, prev, pager, next",
+      default: 'total, sizes, prev, pager, next',
     },
     paginationAlign: {
       type: String,
-      default: "right",
+      default: 'right',
       validator(val) {
-        return ["left", "center", "right"].includes(val);
+        return ['left', 'center', 'right'].includes(val)
       },
     },
   },
@@ -294,27 +297,27 @@ export default {
       tableColumn: [],
       tableHeight: ` `,
       rowHeight: this.lineHeightSizes[0].size,
-    };
+    }
   },
   computed: {
     tableSizeKey({ tableId }) {
-      return `${TABLE_SIZE_SETTING_KEY}-${tableId}`;
+      return `${TABLE_SIZE_SETTING_KEY}-${tableId}`
     },
     tableShowIndexKey({ tableId }) {
-      return `${TABLE_INDEX_SETTING_KEY}-${tableId}`;
+      return `${TABLE_INDEX_SETTING_KEY}-${tableId}`
     },
   },
   watch: {
     columns: {
       handler(val) {
-        this.tableColumn = val;
+        this.tableColumn = val
       },
       deep: true,
       // immediate: true,
     },
     index: {
       handler(val) {
-        this.showIndex = val;
+        this.showIndex = val
       },
       immediate: true,
     },
@@ -326,43 +329,43 @@ export default {
         this.columns,
         columns,
         updateLocalConfig
-      );
+      )
       if (this.isRequireSave()) {
-        this.setItem(this.tableId, columns);
+        this.setItem(this.tableId, columns)
       }
     },
     updateIndexShow(show) {
-      this.showIndex = show;
+      this.showIndex = show
       if (this.isRequireSave()) {
-        this.setItem(this.tableShowIndexKey, show);
+        this.setItem(this.tableShowIndexKey, show)
       }
     },
     updateTableSize(size) {
-      this.rowHeight = size;
+      this.rowHeight = size
       if (this.isRequireSave()) {
-        this.setItem(this.tableSizeKey, size);
+        this.setItem(this.tableSizeKey, size)
       }
     },
     onDensityChange(size) {
-      this.rowHeight = size;
+      this.rowHeight = size
       if (this.isRequireSave()) {
-        this.setItem(this.tableSizeKey, size);
+        this.setItem(this.tableSizeKey, size)
       }
-      this.$emit("onDensityChange", size);
+      this.$emit('onDensityChange', size)
     },
     setTableSetting() {
       if (this.isRequireSave()) {
-        const localTableSize = this.getItem(this.tableSizeKey);
-        const localTableShowIndex = this.getItem(this.tableShowIndexKey);
-        localTableSize && (this.rowHeight = localTableSize);
-        this.showIndex = localTableShowIndex;
+        const localTableSize = this.getItem(this.tableSizeKey)
+        const localTableShowIndex = this.getItem(this.tableShowIndexKey)
+        localTableSize && (this.rowHeight = localTableSize)
+        this.showIndex = localTableShowIndex
       }
     },
   },
   mounted() {
-    this.setTableSetting();
+    this.setTableSetting()
   },
-};
+}
 </script>
 
 <style lang="less" scoped>
