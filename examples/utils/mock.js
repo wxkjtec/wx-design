@@ -5,7 +5,7 @@ Mock.setup({
 })
 
 const data = Mock.mock({
-  'list|0': [
+  'list|100': [
     {
       'id|+1': 1,
       name: '@cname',

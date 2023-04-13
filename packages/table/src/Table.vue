@@ -64,6 +64,7 @@
           align: 'center',
           ...item,
         }"
+        :cellEmptyText="cellEmptyText"
         :resizable="tableColumn.length - 1 !== index"
       />
 
@@ -146,6 +147,12 @@ export default {
     isSaveTableSetting: {
       type: Boolean,
       default: true,
+    },
+
+    // 单元格数据为空时显示的值
+    cellEmptyText: {
+      type: String,
+      default: '',
     },
 
     // 表格密度选项设置（行高）

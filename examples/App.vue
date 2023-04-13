@@ -13,6 +13,7 @@
       index
       paginationAlign="right"
       :heightOffset="100"
+      cellEmptyText="-"
       @paginationChange="onPaginationChange"
       @selection-change="selectionChange"
       @onRefreshTable="onRefreshTable"
