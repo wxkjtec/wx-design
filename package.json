@@ -1,10 +1,10 @@
 {
   "name": "wx-design",
-  "version": "0.1.20",
+  "version": "0.1.21",
   "private": false,
   "author": {
-    "name": "dmhb",
-    "email": "189838678@qq.com"
+    "name": "BlackKey",
+    "email": "553180854@qq.com"
   },
   "scripts": {
     "serve": "vue-cli-service serve",
