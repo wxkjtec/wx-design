@@ -14,6 +14,11 @@
       ></render-dom>
     </template>
 
+    <!-- 默认文本 -->
+    <template v-else v-slot="scope">
+      <span>{{ scope.row[$attrs.prop] || cellEmptyText }}</span>
+    </template>
+
     <!-- 递归children 支持多级表头和合并单元格-->
     <template v-for="(column, index) in $attrs.children">
       <table-column
@@ -28,11 +33,17 @@
   </el-table-column>
 </template>
 <script>
-import { RenderDom } from "./RenderDom";
+import { RenderDom } from './RenderDom'
 export default {
-  name: "TableColumn",
+  name: 'TableColumn',
   components: {
     RenderDom,
   },
-};
+  props: {
+    cellEmptyText: {
+      type: String,
+      default: '',
+    },
+  },
+}
 </script>

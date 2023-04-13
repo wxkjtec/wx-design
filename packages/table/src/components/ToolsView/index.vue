@@ -13,20 +13,17 @@
   </div>
 </template>
 <script>
-import RefreshTool from "./Refresh.vue";
-import DensityTool from "./Density.vue";
-import SettingTool from "./Setting.vue";
+import RefreshTool from './Refresh.vue'
+import DensityTool from './Density.vue'
+import SettingTool from './Setting.vue'
 export default {
-  name: "ToolsView",
+  name: 'ToolsView',
   components: {
     RefreshTool,
     DensityTool,
     SettingTool,
   },
-  mounted() {
-    console.log(this.$slots);
-  },
-};
+}
 </script>
 <style lang="less" scoped>
 .wx-table-tools-view {
