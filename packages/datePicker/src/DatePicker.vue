@@ -61,7 +61,10 @@ export default {
       type: Array,
       default: () => [],
       validator(val) {
-        return enumeration.some((item) => val.includes(item.value));
+        if (val && val.length > 0) {
+          return enumeration.some((item) => val.includes(item.value));
+        }
+        return true;
       },
     },
   },
