@@ -23,14 +23,14 @@
       <div slot="toolbar">toolbar</div>
       <!-- <div slot="empty">0000</div> -->
     </WxTable>
-    <WxDate
+    <!-- <WxDate
       type="daterange"
       v-model="date"
       :shortcuts="shotcuts"
       :startDate.sync="startDate"
       :endDate.sync="endDate"
     />
-    <button @click="click">测试值</button>
+    <button @click="click">测试值</button> -->
   </div>
 </template>
 

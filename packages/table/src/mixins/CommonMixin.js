@@ -6,16 +6,16 @@ export const CommonMixin = {
     },
 
     // columns  列配置数组
-    // prop  列项中的prop，代表列的唯一属性
+    // label  列项中的label，代表列的唯一属性
     // attr  需要修改列的属性key
     // attrValue 需要修改列的属性的值
-    traverseColumn(columns, prop, attr, attrValue) {
+    traverseColumn(columns, label, attr, attrValue) {
       columns.map((child) => {
-        if (child.prop === prop) {
+        if (child.label === label) {
           child[attr] = attrValue;
         }
         if (child.children && child.children.length > 0) {
-          this.traverseColumn(child.children, prop, attr, attrValue);
+          this.traverseColumn(child.children, label, attr, attrValue);
         }
       });
       return columns;
