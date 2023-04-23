@@ -10,7 +10,7 @@
       :loading="tableLoading"
       border
       stripe
-      index
+      :index="false"
       paginationAlign="right"
       :heightOffset="100"
       cellEmptyText="-"
@@ -93,14 +93,36 @@ export default {
         {
           label: "邮箱",
           prop: "email",
-          width: "600px",
+          minWidth: "200px",
         },
         {
           label: "工作",
           prop: "job",
           show: true,
-          width: "700px",
+          minWidth: "100px",
         },
+        {
+          label: "身份证",
+          prop: "visitorIdNum",
+          width: "210px",
+        },
+        {
+          label: "是否开车",
+          prop: "",
+        },
+        {
+          label: "访问次数",
+          prop: "visitNum",
+        },
+        {
+          label: "受访人员",
+          prop: "intervieweeName",
+        },
+        // {
+        //   label: '来访事由',
+        //   prop: 'reason',
+        //   // minWidth: '200px',
+        // },
         {
           label: "操作",
           fixed: "right",
