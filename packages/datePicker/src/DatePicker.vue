@@ -122,7 +122,7 @@ export default {
           options.shortcuts = daterangeSortcuts(this.shortcuts);
         }
         // 如果长度为0则代表没有快捷选项
-        if (options.shortcuts.length === 0) {
+        if (options.shortcuts && options.shortcuts.length === 0) {
           delete options.shortcuts;
         }
         return options;
@@ -134,7 +134,7 @@ export default {
       // 判断是选单个日期还是日期区间
       if (this.type === "date") {
         this.$emit("change", value);
-      } else if (this.type === "daterange") {
+      } else if (this.type.indexOf("range") !== -1) {
         // 如果有值则取第一个和第二个，如果没值默认传空字符串
         if (value) {
           this.$emit("update:startDate", value[0]);
