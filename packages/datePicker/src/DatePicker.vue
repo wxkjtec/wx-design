@@ -95,10 +95,18 @@ export default {
       },
       immediate: true,
     },
+    modelValue: {
+      handler(v) {
+        console.log(v);
+        if (!v && this.type.indexOf("range") === -1) {
+          this.value = "";
+        }
+      },
+    },
     startDate: {
       handler(v) {
         // 如果start没值则代表end也没值 直接清空
-        if (!v) {
+        if (!v && this.type.indexOf("range") !== -1) {
           this.value = [];
         }
       },
