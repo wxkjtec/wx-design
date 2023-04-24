@@ -97,7 +97,8 @@ export default {
     },
     startDate: {
       handler(v) {
-        if (!v && !this.endDate) {
+        // 如果start没值则代表end也没值 直接清空
+        if (!v) {
           this.value = [];
         }
       },
