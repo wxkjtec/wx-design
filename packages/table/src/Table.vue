@@ -378,7 +378,9 @@ export default {
     },
   },
   mounted() {
-    this.setTableSetting();
+    if (this.tableId) {
+      this.setTableSetting();
+    }
   },
 };
 </script>
