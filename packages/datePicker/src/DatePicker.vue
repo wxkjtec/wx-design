@@ -28,6 +28,8 @@ export default {
       type: [String, Array],
       default: "",
     },
+    startDate: { type: String, default: "" },
+    endDate: { type: String, default: "" },
     // 选择日期还是日期区间
     type: {
       type: String,
@@ -82,10 +84,9 @@ export default {
         let value;
         if (v === "date") {
           value = this.modelValue;
-        } else if (v === "daterange") {
-          const { startDate, endDate } = this.$attrs;
-          if (startDate && endDate) {
-            value = [startDate, endDate];
+        } else if (v.indexOf("range") !== -1) {
+          if (this.startDate && this.endDate) {
+            value = [this.startDate, this.endDate];
           } else {
             value = [];
           }
@@ -93,6 +94,13 @@ export default {
         this.value = value;
       },
       immediate: true,
+    },
+    startDate: {
+      handler(v) {
+        if (!v && !this.endDate) {
+          this.value = [];
+        }
+      },
     },
   },
   computed: {
