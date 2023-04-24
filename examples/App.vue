@@ -55,7 +55,7 @@ export default {
       columns: [
         {
           label: "yy",
-          prop: "h",
+          prop: "",
         },
         {
           label: "姓名",
@@ -79,6 +79,10 @@ export default {
             });
           },
         },
+        // {
+        //   label: "yy1",
+        //   prop: "",
+        // },
         {
           label: "年龄",
           prop: "age",
