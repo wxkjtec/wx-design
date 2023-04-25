@@ -100,6 +100,7 @@ export default {
         console.log(v);
         if (!v && this.type.indexOf("range") === -1) {
           this.value = "";
+          this.onChange(this.value);
         }
       },
     },
@@ -108,6 +109,7 @@ export default {
         // 如果start没值则代表end也没值 直接清空
         if (!v && this.type.indexOf("range") !== -1) {
           this.value = [];
+          this.onChange(this.value);
         }
       },
     },
