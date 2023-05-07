@@ -35,17 +35,17 @@
 </template>
 
 <script>
-import axios from "axios";
+import axios from 'axios'
 export default {
-  name: "App",
+  name: 'App',
   components: {},
   data() {
     return {
-      shotcuts: ["nextweek"],
-      date: "",
-      startDate: "",
-      endDate: "",
-      api: "",
+      shotcuts: ['nextweek'],
+      date: '',
+      startDate: '',
+      endDate: '',
+      api: '',
       tableLoading: false,
       pagination: {
         pageSize: 10,
@@ -54,29 +54,29 @@ export default {
       },
       columns: [
         {
-          label: "yy",
-          prop: "",
+          label: 'yy',
+          prop: '',
         },
         {
-          label: "姓名",
-          prop: "name",
-          width: "200px",
+          label: '姓名',
+          prop: 'name',
+          width: '200px',
         },
         {
-          label: "头像",
-          prop: "avatar",
+          label: '头像',
+          prop: 'avatar',
           render: (h, { row }) => {
-            return h("el-image", {
+            return h('el-image', {
               props: {
                 src: row.avatar,
-                "preview-src-list": [row.avatar],
+                'preview-src-list': [row.avatar],
               },
               style: {
-                width: "48px",
-                height: "48px",
-                borderRadius: "50%",
+                width: '48px',
+                height: '48px',
+                borderRadius: '50%',
               },
-            });
+            })
           },
         },
         // {
@@ -84,43 +84,45 @@ export default {
         //   prop: "",
         // },
         {
-          label: "年龄",
-          prop: "age",
-          minWidth: "100px",
+          label: '年龄',
+          prop: 'age',
+          minWidth: '100px',
           sortable: true,
           show: true,
         },
         {
-          label: "性别",
-          prop: "gender",
+          label: '性别',
+          prop: 'gender',
         },
         {
-          label: "邮箱",
-          prop: "email",
-          minWidth: "200px",
+          label: '邮箱',
+          prop: 'email',
+          minWidth: '200px',
         },
         {
-          label: "工作",
-          prop: "job",
+          label: '工作',
+          prop: 'job',
           show: true,
-          minWidth: "100px",
+          minWidth: '100px',
         },
         {
-          label: "身份证",
-          prop: "visitorIdNum",
-          width: "210px",
+          label: '身份证',
+          prop: 'visitorIdNum',
+          width: '210px',
         },
         {
-          label: "是否开车",
-          prop: "",
+          label: '是否开车',
+          prop: '',
+          width: '100px',
         },
         {
-          label: "访问次数",
-          prop: "visitNum",
+          label: '访问次数',
+          prop: 'visitNum',
+          width: '100px',
         },
         {
-          label: "受访人员",
-          prop: "intervieweeName",
+          label: '受访人员',
+          prop: 'intervieweeName',
         },
         // {
         //   label: '来访事由',
@@ -128,59 +130,60 @@ export default {
         //   // minWidth: '200px',
         // },
         {
-          label: "操作",
-          fixed: "right",
-          width: "100px",
+          label: '操作',
+          fixed: 'right',
+          width: '100px',
+          minWidth: '100px',
           isOperate: true,
         },
       ],
 
       tableData: [],
-    };
+    }
   },
   methods: {
     click() {
-      console.log(this.date);
+      console.log(this.date)
     },
     fetchData({ pageSize, pageNum }) {
-      this.tableLoading = true;
-      axios("/api/page", {
-        method: "post",
+      this.tableLoading = true
+      axios('/api/page', {
+        method: 'post',
         data: {
           pageSize: pageSize || 10,
           pageNum: pageNum || 1,
         },
       })
         .then((ret) => {
-          const { records, total, pageNum, pageSize } = ret.data.data;
-          this.tableData = records;
+          const { records, total, pageNum, pageSize } = ret.data.data
+          this.tableData = records
           this.pagination = {
             total,
             pageNum,
             pageSize,
-          };
+          }
         })
         .finally(() => {
-          this.tableLoading = false;
-        });
+          this.tableLoading = false
+        })
     },
     onPaginationChange({ pageSize, pageNum }) {
-      this.fetchData({ pageSize, pageNum });
+      this.fetchData({ pageSize, pageNum })
     },
     selectionChange(val) {
-      console.log(val);
+      console.log(val)
     },
     onRefreshTable() {
-      this.fetchData({});
+      this.fetchData({})
     },
     onDensityChange(size) {
-      console.log(size);
+      console.log(size)
     },
   },
   mounted() {
-    this.fetchData({});
+    this.fetchData({})
   },
-};
+}
 </script>
 
 <style>

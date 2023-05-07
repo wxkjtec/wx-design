@@ -65,26 +65,26 @@
   </el-popover>
 </template>
 <script>
-import Draggable from "vuedraggable";
-import SETTING_ICON from "../../icon/setting.png";
-import MOVE_ICON from "../../icon/move.png";
-import ARROW_LEFT from "../../icon/arrow-left.png";
-import ARROW_LEFT_ACTIVE from "../../icon/arrow-left-active.png";
-import ARROW_RIGHT from "../../icon/arrow-right.png";
-import ARROW_RIGHT_ACTIVE from "../../icon/arrow-right-active.png";
+import Draggable from 'vuedraggable'
+import SETTING_ICON from '../../icon/setting.png'
+import MOVE_ICON from '../../icon/move.png'
+import ARROW_LEFT from '../../icon/arrow-left.png'
+import ARROW_LEFT_ACTIVE from '../../icon/arrow-left-active.png'
+import ARROW_RIGHT from '../../icon/arrow-right.png'
+import ARROW_RIGHT_ACTIVE from '../../icon/arrow-right-active.png'
 export default {
-  name: "Setting",
+  name: 'Setting',
   components: {
     Draggable,
   },
   inject: [
-    "updateIndexShow",
-    "updateTableColumn",
-    "getLocalTableShowIndex",
-    "getTableColumn",
-    "getLocalTableColumns",
-    "getOriginalTableColum",
-    "doLayout",
+    'updateIndexShow',
+    'updateTableColumn',
+    'getLocalTableShowIndex',
+    'getTableColumn',
+    'getLocalTableColumns',
+    'getOriginalTableColum',
+    'doLayout',
   ],
   data() {
     return {
@@ -104,86 +104,93 @@ export default {
       checkedItems: [], // 已经勾选的项
 
       items: [],
-    };
+    }
   },
   methods: {
     onIndexChange(val) {
-      this.updateIndexShow(val);
+      this.updateIndexShow(val)
       this.$nextTick(() => {
-        this.doLayout();
-      });
+        this.doLayout()
+      })
     },
     toggleCheckAll(columns, isCheck) {
       columns.map((item) => {
-        item.show = isCheck;
+        item.show = isCheck
         if (item.children && item.children.length > 0) {
-          this.toggleCheckAll(item.children, isCheck);
+          this.toggleCheckAll(item.children, isCheck)
         }
-      });
-      return columns;
+      })
+      return columns
     },
 
     handleCheckAllChange(value) {
-      this.items = this.toggleCheckAll(this.items, value);
+      this.items = this.toggleCheckAll(this.items, value)
 
-      this.updateTableColumn(this.items);
+      this.updateTableColumn(this.items)
 
-      this.checkedItems = value ? this.items.map((item) => item.label) : [];
-      this.isIndeterminate = false;
+      this.checkedItems = value ? this.items.map((item) => item.label) : []
+      this.isIndeterminate = false
 
       this.$nextTick(() => {
-        this.doLayout();
-      });
+        this.doLayout()
+      })
     },
 
     handleCheckedItemsChange(value) {
-      const isCheckAll = value.length === this.items.length;
+      const isCheckAll = value.length === this.items.length
       if (isCheckAll) {
-        this.checkAll = true;
-        this.isIndeterminate = false;
+        this.checkAll = true
+        this.isIndeterminate = false
       } else if (value.length !== 0) {
-        this.checkAll = false;
-        this.isIndeterminate = true;
+        this.checkAll = false
+        this.isIndeterminate = true
       } else {
-        this.isIndeterminate = false;
+        this.isIndeterminate = false
       }
       this.items = this.items.map((item) => {
-        item.show = value.includes(item.label);
-        return item;
-      });
-      this.updateTableColumn(this.items);
+        item.show = value.includes(item.label)
+        return item
+      })
+      this.updateTableColumn(this.items)
       this.$nextTick(() => {
-        this.doLayout();
-      });
+        this.doLayout()
+      })
     },
     onOrderChange(val) {
-      this.updateTableColumn(this.items);
+      this.updateTableColumn(this.items)
     },
 
     handleFixedColChange({ prop }, arrow) {
       this.items = this.items.map((item) => {
         if (item.prop === prop) {
-          item.fixed = item.fixed === arrow ? false : arrow;
+          item.fixed = item.fixed === arrow ? false : arrow
         }
-        return item;
-      });
-      this.updateTableColumn(this.items);
+        return item
+      })
+      this.updateTableColumn(this.items)
     },
     // 重置table columns
     handleReset() {
-      this.items = this.getOriginalTableColum();
-      this.updateTableColumn(this.items);
+      this.items = this.getOriginalTableColum()
+      this.updateTableColumn(this.items)
+      this.initSetting()
+      this.$nextTick(() => {
+        this.doLayout()
+      })
+    },
+    initSetting() {
+      this.showIndex = this.getLocalTableShowIndex()
+      this.items = this.getLocalTableColumns()
+      this.checkedItems = this.items
+        .filter((item) => item.show || typeof item.show !== 'boolean')
+        .map((item) => item.label)
+      this.handleCheckedItemsChange(this.checkedItems)
     },
   },
   mounted() {
-    this.showIndex = this.getLocalTableShowIndex();
-    this.items = this.getLocalTableColumns();
-    this.checkedItems = this.items
-      .filter((item) => item.show || typeof item.show !== "boolean")
-      .map((item) => item.label);
-    this.handleCheckedItemsChange(this.checkedItems);
+    this.initSetting()
   },
-};
+}
 </script>
 <style lang="less" scoped>
 .flip-list-move {

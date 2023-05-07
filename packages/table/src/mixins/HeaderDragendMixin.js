@@ -2,16 +2,19 @@
 export const HeaderDragendMixin = {
   methods: {
     onHeaderDragend(newWidth, oldWidth, column, event) {
-      console.log(column);
+      console.log(column)
       if (this.tableId && this.isSaveTableSetting) {
         const updatedColumns = this.traverseColumn(
           this.tableColumn,
           column.label,
-          "width",
+          'width',
           newWidth
-        );
-        this.saveColumns(updatedColumns);
+        )
+        this.saveColumns(updatedColumns)
+        this.$nickTick(() => {
+          this.$refs['wx-table'].doLayout()
+        })
       }
     },
   },
-};
+}
