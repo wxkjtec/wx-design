@@ -1,6 +1,6 @@
 {
   "name": "wx-design",
-  "version": "0.1.35",
+  "version": "0.1.36",
   "private": false,
   "author": {
     "name": "BlackKey",
@@ -10,7 +10,7 @@
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build --target lib --name wx-design --dest dist --entry ./packages/index.js",
     "lint": "vue-cli-service lint",
-    "release": "bumpp --commit --push --tag && npm publish"
+    "release": "bumpp --commit --push --tag && npm run build && npm publish"
   },
   "files": [
     "dist",
