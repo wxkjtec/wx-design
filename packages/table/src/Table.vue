@@ -70,7 +70,7 @@
 
       <!-- 空状态 -->
       <template slot="empty">
-        <slot name="empty" v-if="$slots.empty" />
+        <slot name="empty" v-if="$slots.empty && loading !== true" />
         <div v-else v-show="loading !== true">暂无数据</div>
       </template>
     </el-table>
