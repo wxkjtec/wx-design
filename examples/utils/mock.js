@@ -1,7 +1,7 @@
 import Mock from "mockjs";
 
 Mock.setup({
-  timeout: "400-700",
+  timeout: "800-1100",
 });
 
 const data = Mock.mock({

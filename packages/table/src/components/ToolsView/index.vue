@@ -5,25 +5,28 @@
     </div>
     <div class="tools-box">
       <slot name="tool-bar" />
-      <div class="divide-line" v-if="$slots['tool-bar']"></div>
-      <RefreshTool @refresh-table="$emit('refresh-table')" />
-      <DensityTool @density-change="(val) => $emit('density-change', val)" />
-      <SettingTool />
+      <div class="divide-line tool-item" v-if="$slots['tool-bar']"></div>
+      <RefreshTool class="tool-item" @refresh-table="$emit('refresh-table')" />
+      <DensityTool
+        class="tool-item"
+        @density-change="(val) => $emit('density-change', val)"
+      />
+      <SettingTool class="tool-item" />
     </div>
   </div>
 </template>
 <script>
-import RefreshTool from './Refresh.vue'
-import DensityTool from './Density.vue'
-import SettingTool from './Setting.vue'
+import RefreshTool from "./Refresh.vue";
+import DensityTool from "./Density.vue";
+import SettingTool from "./Setting.vue";
 export default {
-  name: 'ToolsView',
+  name: "ToolsView",
   components: {
     RefreshTool,
     DensityTool,
     SettingTool,
   },
-}
+};
 </script>
 <style lang="less" scoped>
 .wx-table-tools-view {
@@ -41,7 +44,9 @@ export default {
     height: 100%;
     display: flex;
     align-items: center;
-    gap: 12px;
+    .tool-item {
+      margin-left: 10px;
+    }
     .divide-line {
       width: 1px;
       height: 56%;

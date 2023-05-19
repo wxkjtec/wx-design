@@ -1,28 +1,31 @@
 <template>
   <div id="app">
-    <WxTable
-      tableId="table1688"
-      size="mini"
-      background
-      :pagination="pagination"
-      :columns="columns"
-      :data="tableData"
-      :loading="tableLoading"
-      border
-      stripe
-      :index="false"
-      paginationAlign="right"
-      :heightOffset="100"
-      cellEmptyText="-"
-      @paginationChange="onPaginationChange"
-      @selection-change="selectionChange"
-      @onRefreshTable="onRefreshTable"
-      @onDensityChange="onDensityChange"
-    >
-      <div slot="title">基础表格</div>
-      <div slot="toolbar">toolbar</div>
-      <div slot="empty">0000</div>
-    </WxTable>
+    <div style="height: 100%">
+      <WxTable
+        tableId="table1688"
+        size="mini"
+        background
+        :pagination="pagination"
+        :columns="columns"
+        :data="tableData"
+        :loading="tableLoading"
+        border
+        stripe
+        :index="false"
+        paginationAlign="right"
+        :heightOffset="100"
+        cellEmptyText="-"
+        @paginationChange="onPaginationChange"
+        @selection-change="selectionChange"
+        @onRefreshTable="onRefreshTable"
+        @onDensityChange="onDensityChange"
+      >
+        <div slot="title">基础表格</div>
+        <div slot="toolbar">toolbar</div>
+        <div slot="empty">0000</div>
+      </WxTable>
+    </div>
+
     <!-- <WxDate
       type="daterange"
       v-model="date"
@@ -192,7 +195,7 @@ body {
   margin: 0;
 }
 #app {
-  height: 100vh;
+  height: calc(100vh - 100px);
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
