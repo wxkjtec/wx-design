@@ -2,24 +2,26 @@
 export const RedoHeightMixin = {
   methods: {
     calcTableHeight() {
-      // 工具箱的高度
-      let toolsHeight = 0;
-      // 分页器的高度
-      let paginationHeight = 0;
-      if (this.hasToolsBox) {
-        toolsHeight = this.getHeightBySelector(".wx-table-tools-view");
-      }
+      this.$nextTick(() => {
+        // 工具箱的高度
+        let toolsHeight = 0;
+        // 分页器的高度
+        let paginationHeight = 0;
+        if (this.hasToolsBox) {
+          toolsHeight = this.getHeightBySelector(".wx-table-tools-view");
+        }
 
-      if (this.pagination) {
-        paginationHeight = this.getHeightBySelector(".wx-table-pagination");
-      }
+        if (this.pagination) {
+          paginationHeight = this.getHeightBySelector(".wx-table-pagination");
+        }
 
-      // 父元素高度
-      const parentNodeHeight = this.$el.parentNode.offsetHeight;
-      this.tableHeight = `${
-        parentNodeHeight - toolsHeight - paginationHeight - this.heightOffset
-      }px`;
-      this.$refs["wx-table"].doLayout();
+        // 父元素高度
+        const parentNodeHeight = this.$el.parentNode.offsetHeight;
+        this.tableHeight = `${
+          parentNodeHeight - toolsHeight - paginationHeight - this.heightOffset
+        }px`;
+        this.$refs["wx-table"].doLayout();
+      });
     },
     getHeightBySelector(selector) {
       return document.querySelector(selector).offsetHeight;
