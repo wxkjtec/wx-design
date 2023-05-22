@@ -8,8 +8,7 @@
 </template>
 
 <script>
-import { isEmpty, get } from "lodash-es";
-import { generateUUID } from "../../utils";
+import { generateUUID, $get } from "../../utils";
 import { fullScreenIcon } from "./source";
 const chartInstanceKey = "chart";
 export default {
@@ -119,7 +118,7 @@ export default {
       }
     },
     setOption(option) {
-      if (isEmpty(option)) return;
+      if (!option) return;
       const postOption = this.mergeOption(option);
       this.$nextTick(() => {
         this[chartInstanceKey] &&
@@ -137,9 +136,9 @@ export default {
       const that = this;
       return Object.assign(option, {
         toolbox: {
-          ...get(option, "toolbox", {}),
+          ...$get(option, "toolbox", {}),
           feature: {
-            ...get(option, "toolbox.feature", {}),
+            ...$get(option, "toolbox.feature", {}),
             myFull: {
               show: true,
               title: "",

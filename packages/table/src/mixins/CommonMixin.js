@@ -1,4 +1,5 @@
-import { cloneDeep } from "lodash-es";
+import { deepClone } from "../../../utils/index";
+
 export const CommonMixin = {
   methods: {
     isRequireSave() {
@@ -37,7 +38,7 @@ export const CommonMixin = {
       const newColumnsLabels = newColumns.map((item) => item.label);
       const localColumnsLabels = localColumns.map((item) => item.label);
 
-      let resultColumns = cloneDeep(localColumns);
+      let resultColumns = deepClone(localColumns);
 
       // 1.删除原始属性，则在本地中也删除
       resultColumns = resultColumns.filter((item) =>
