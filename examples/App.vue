@@ -26,14 +26,14 @@
       </WxTable>
     </div>
 
-    <!-- <WxDate
+    <WxDate
       type="daterange"
       v-model="date"
       :shortcuts="shotcuts"
       :startDate.sync="startDate"
       :endDate.sync="endDate"
     />
-    <button @click="click">测试值</button> -->
+    <button @click="click">测试值</button>
   </div>
 </template>
 
@@ -146,7 +146,12 @@ export default {
   },
   methods: {
     click() {
-      console.log(this.date);
+      this.startDate = "2022-05-15";
+      this.endDate = "2022-05-15";
+      // this.date = '2022-05-01'
+      console.log(this.date)
+      console.log(this.startDate);
+      console.log(this.endDate);
     },
     fetchData({ pageSize, pageNum }) {
       this.tableLoading = true;

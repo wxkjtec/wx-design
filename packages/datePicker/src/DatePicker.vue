@@ -101,6 +101,8 @@ export default {
         if (!v && this.type.indexOf("range") === -1) {
           this.value = "";
           this.onChange(this.value);
+        } else if (v && this.type.indexOf("range") === -1) {
+          this.value = v;
         }
       },
     },
@@ -110,6 +112,8 @@ export default {
         if (!v && this.type.indexOf("range") !== -1) {
           this.value = [];
           this.onChange(this.value);
+        } else if (v && this.type.indexOf("range") !== -1) {
+          this.value = [this.startDate, this.endDate];
         }
       },
     },
